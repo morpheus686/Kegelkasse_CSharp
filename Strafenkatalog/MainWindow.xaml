@@ -4,9 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Strafenkatalog"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:view="clr-namespace:Strafenkatalog.View"
         mc:Ignorable="d"
+        xmlns:vm="clr-namespace:Strafenkatalog.ViewModel"
         Title="RT-Strafenkatalog" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:EditPenaltyViewModel}">
+            <view:EditPenaltyView />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
+    <materialDesign:DialogHost Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
+                                       Identifier="DialogHost"
+                                       x:Name="DialogHost">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <DataGrid Grid.Row="1" ItemsSource="{Binding GridItems}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <materialDesign:DataGridTextColumn Header="Spieldatum" Binding="{Binding Date}"/>
+                    <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
+                    <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
+                    <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
+                    <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>
+                    <materialDesign:DataGridTextColumn Header="Fehler" Binding="{Binding Errors}"/>
+                    <materialDesign:DataGridTextColumn Header="Gespielt" Binding="{Binding Result}"/>
+                    <materialDesign:DataGridTextColumn Header="Strafe" Binding="{Binding PenaltySum}"/>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Bearbeiten" 
+                                        Command="{Binding EditCommand}"
+                                        Style="{StaticResource MaterialDesignFlatButton}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>
