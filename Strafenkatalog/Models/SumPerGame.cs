@@ -5,7 +5,7 @@ namespace Strafenkatalog.Models;
 
 public partial class SumPerGame
 {
-    public string? Date { get; set; }
+    public DateOnly? Date { get; set; }
 
     public string? TeamName { get; set; }
 

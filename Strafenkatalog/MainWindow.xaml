@@ -6,13 +6,21 @@
         xmlns:local="clr-namespace:Strafenkatalog"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:view="clr-namespace:Strafenkatalog.View"
+        xmlns:converter="clr-namespace:Strafenkatalog.Components.Converter"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Strafenkatalog.ViewModel"
-        Title="RT-Strafenkatalog" Height="450" Width="800">
+        Title="RT-Strafenkatalog" Height="800" Width="1200">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:EditPenaltyViewModel}">
             <view:EditPenaltyView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:IndeterminateProgressViewModel}">
+            <view:IndeterminateProgressDialogView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EditTeamsDialogViewModel}">
+            <view:EditTeamsDialogView />
+        </DataTemplate>
+        <converter:EuroFormatConverter x:Key="EuroFormatConverter" />
     </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -20,55 +28,90 @@
     <materialDesign:DialogHost Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
                                        Identifier="DialogHost"
                                        x:Name="DialogHost">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-
+        <DockPanel>
             <materialDesign:ColorZone Grid.Row="0" 
-                                      >
+                      Padding="0"
+                      Mode="PrimaryMid"
+                      DockPanel.Dock="Top"
+                      ClipToBounds="False"
+                      materialDesign:ElevationAssist.Elevation="Dp4" >
+
                 <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="RT-Strafenkatalog" 
-                           VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                           Grid.Column="0"
-                           FontSize="30"
-                               Margin="25"
-                           Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               Grid.Column="0"
+                               FontSize="30"
+                               Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
                     <materialDesign:PopupBox Grid.Column="1"
-                                             Margin="10"
-                                             Height="25"
-                                             Width="25"/>
+                                             Margin="15"
+                                             StaysOpen="False"
+                                             PlacementMode="BottomAndAlignRightEdges">
+                        <StackPanel Orientation="Vertical">
+                            <Button Content="Mannschaften anpassen"
+                                    Command="{Binding EditTeamsCommand, Mode=OneTime}"/>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
                 </Grid>
             </materialDesign:ColorZone>
 
-            <DataGrid Grid.Row="1" ItemsSource="{Binding GridItems}" AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <materialDesign:DataGridTextColumn Header="Spieldatum" Binding="{Binding Date}"/>
-                    <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
-                    <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
-                    <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
-                    <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>
-                    <materialDesign:DataGridTextColumn Header="Fehler" Binding="{Binding Errors}"/>
-                    <materialDesign:DataGridTextColumn Header="Gespielt" Binding="{Binding Result}"/>
-                    <materialDesign:DataGridTextColumn Header="Strafe" Binding="{Binding PenaltySum}"/>
-                    <DataGridTemplateColumn>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Bearbeiten" 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0"
+                            Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <Button Style="{StaticResource MaterialDesignIconButton}" 
+                        Content="{materialDesign:PackIcon Kind=ArrowLeft}"
+                        x:Name="PreviousPageButton"/>
+                    <TextBlock Text="22.03.2024" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <Button Style="{StaticResource MaterialDesignIconButton}" 
+                        Content="{materialDesign:PackIcon Kind=ArrowRight}"
+                        x:Name="NextPageButton"/>
+                </StackPanel>
+
+                <DataGrid ItemsSource="{Binding GridItems}"
+                      AutoGenerateColumns="False" 
+                      IsReadOnly="True" 
+                      Margin="10,10,10,10"
+                          Grid.Row="1">
+                    <DataGrid.Columns>
+                        <materialDesign:DataGridTextColumn Header="Spieldatum" Binding="{Binding Date}"/>
+                        <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
+                        <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
+                        <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
+                        <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>
+                        <materialDesign:DataGridTextColumn Header="Fehler" Binding="{Binding Errors}"/>
+                        <materialDesign:DataGridTextColumn Header="Gespielt" Binding="{Binding Result}"/>
+                        <materialDesign:DataGridTextColumn Header="Strafe" Binding="{Binding PenaltySum, Converter={StaticResource EuroFormatConverter}}"/>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Bearbeiten" 
                                         Command="{Binding EditCommand}"
                                         Style="{StaticResource MaterialDesignFlatButton}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DockPanel>
     </materialDesign:DialogHost>
 </Window>

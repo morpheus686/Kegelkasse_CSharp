@@ -11,7 +11,7 @@ namespace Strafenkatalog.ViewModel
         private readonly MainWindowViewModel mainViewModel;
         private readonly SumPerPlayer sumPerPlayer;
 
-        public string? Date { get => sumPerPlayer.Date; }
+        public DateOnly? Date { get => sumPerPlayer.Date; }
         public string? TeamName { get => sumPerPlayer.TeamName; }
         public string? Name { get => sumPerPlayer.Name; }
         public double? PenaltySum { get => sumPerPlayer.PenaltySum; }

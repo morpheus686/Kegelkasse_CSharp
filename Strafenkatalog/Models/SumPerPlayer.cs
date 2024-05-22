@@ -7,7 +7,7 @@ public partial class SumPerPlayer
 {
     public int? GameId { get; set; }
 
-    public string? Date { get; set; }
+    public DateOnly? Date { get; set; }
 
     public string? TeamName { get; set; }
 

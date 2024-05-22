@@ -9,7 +9,11 @@ public partial class Game
 
     public int Team { get; set; }
 
-    public string Date { get; set; } = null!;
+    public DateOnly Date { get; set; }
+
+    public string? Vs { get; set; }
+
+    public int? Gameday { get; set; }
 
     public virtual ICollection<GamePlayer> GamePlayers { get; set; } = new List<GamePlayer>();
 

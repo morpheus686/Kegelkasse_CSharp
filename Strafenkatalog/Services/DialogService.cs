@@ -1,10 +1,11 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Strafenkatalog.Services.Interfaces;
+using Strafenkatalog.View;
 using Strafenkatalog.ViewModel;
 
 namespace Strafenkatalog.Services
 {
-    internal class DialogService : IDialogService
+    public class DialogService : IDialogService
     {
         private const string DialogIdentifier = "DialogHost";
         private readonly Lazy<DialogHost> _dialogHost;
@@ -19,46 +20,21 @@ namespace Strafenkatalog.Services
             return DialogHost.Show(viewModel, DialogIdentifier);
         }
 
-        public Task ShowIndeterminateDialog(Func<Task> progressTask)
+        public async Task ShowIndeterminateDialog(Func<IndeterminateProgressViewModel, Task> progressTask)
         {
-            return ShowIndeterminateDialog(progressTask, null);
+            var vm = new IndeterminateProgressViewModel();
+            _dialogHost.Value.DialogContent = new IndeterminateProgressDialogView();
+            _dialogHost.Value.DataContext = vm;            
+            _dialogHost.Value.IsOpen = true;            
+            await progressTask(vm);
+            _dialogHost.Value.IsOpen = false;
+            _dialogHost.Value.DataContext = null;
         }
 
-        public async Task ShowIndeterminateDialog(Task worktask)
-        {
-            try
-            {
-                OpenIndeterminateProgressDialog(null);
-                await worktask;
-            }
-            finally
-            {
-                CloseIndeterminateProgressDialog();
-            }
-        }
-
-        public async Task ShowIndeterminateDialog(Func<Task> progressTask, string message)
-        {
-            try
-            {
-                OpenIndeterminateProgressDialog(message);
-                await progressTask();
-            }
-            finally
-            {
-                CloseIndeterminateProgressDialog();
-            }
-        }
 
         public Task ShowMessage(string message)
         {
             return Task.CompletedTask;
-        }
-
-        private void CloseIndeterminateProgressDialog()
-        {
-            _dialogHost.Value.IsOpen = false;
-            _dialogHost.Value.DialogContent = null;
         }
 
         private DialogHost LoadDialogHost()
@@ -69,11 +45,6 @@ namespace Strafenkatalog.Services
             }
 
             return mainWindow.DialogHost;
-        }
-
-        private void OpenIndeterminateProgressDialog(string message)
-        {    
-            _dialogHost.Value.IsOpen = true;
         }
     }
 }

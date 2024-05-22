@@ -6,16 +6,16 @@ namespace Strafenkatalog.ViewModel
     public class EditPenaltyViewModel : LoadableViewModel
     {
         private readonly StrafenkatalogContext context;
-        private readonly SumPerPlayer sumPerPlayer;
+        private readonly SumPerPlayer sumPerPlayerOriginal;
 
-        private int? full;
+        private int? _full;
 
         public int? Full
         {
-            get { return full; }
+            get { return _full; }
             set 
             { 
-                full = value;
+                _full = value;
                 RaisePropertyChanged();
             }
         }
@@ -24,12 +24,12 @@ namespace Strafenkatalog.ViewModel
         public EditPenaltyViewModel(StrafenkatalogContext context, SumPerPlayer sumPerPlayer)
         {
             this.context = context;
-            this.sumPerPlayer = sumPerPlayer;
+            this.sumPerPlayerOriginal = sumPerPlayer;
         }
 
         protected override async Task InitializeInternalAsync()
         {
-            var queryable = this.context.GamePlayers.Where(x => x.Player == this.sumPerPlayer.PlayerId && x.Game == this.sumPerPlayer.GameId);
+            var queryable = this.context.GamePlayers.Where(x => x.Player == this.sumPerPlayerOriginal.PlayerId && x.Game == this.sumPerPlayerOriginal.GameId);
             await queryable.LoadAsync();
             var result = await queryable.FirstAsync();
 
