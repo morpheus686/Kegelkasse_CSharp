@@ -25,7 +25,29 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
+            <materialDesign:ColorZone Grid.Row="0" 
+                                      >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="RT-Strafenkatalog" 
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Grid.Column="0"
+                           FontSize="30"
+                               Margin="25"
+                           Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
+                    <materialDesign:PopupBox Grid.Column="1"
+                                             Margin="10"
+                                             Height="25"
+                                             Width="25"/>
+                </Grid>
+            </materialDesign:ColorZone>
+
             <DataGrid Grid.Row="1" ItemsSource="{Binding GridItems}" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <materialDesign:DataGridTextColumn Header="Spieldatum" Binding="{Binding Date}"/>
