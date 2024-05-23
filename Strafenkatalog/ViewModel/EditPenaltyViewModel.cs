@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Strafenkatalog.Models;
+﻿using Strafenkatalog.Models;
 
 namespace Strafenkatalog.ViewModel
 {
     public class EditPenaltyViewModel : LoadableViewModel
     {
-        private readonly StrafenkatalogContext context;
-        private readonly SumPerPlayer sumPerPlayerOriginal;
-
         private int? _full;
+        private GamePlayer? gamePlayer;
+        private readonly IEnumerable<PlayerPenalty> playerPenalties;
 
         public int? Full
         {
@@ -20,23 +18,22 @@ namespace Strafenkatalog.ViewModel
             }
         }
 
-
-        public EditPenaltyViewModel(StrafenkatalogContext context, SumPerPlayer sumPerPlayer)
+        public GamePlayer? GamePlayer
         {
-            this.context = context;
-            this.sumPerPlayerOriginal = sumPerPlayer;
+            get => gamePlayer;
+            private set
+            {
+                gamePlayer = value;
+                RaisePropertyChanged();
+            }
         }
 
-        protected override async Task InitializeInternalAsync()
-        {
-            var queryable = this.context.GamePlayers.Where(x => x.Player == this.sumPerPlayerOriginal.PlayerId && x.Game == this.sumPerPlayerOriginal.GameId);
-            await queryable.LoadAsync();
-            var result = await queryable.FirstAsync();
+        public IEnumerable<PlayerPenalty> PlayerPenalties => playerPenalties;
 
-            if (result != null)
-            {
-                Full = result.Full;
-            }
+        public EditPenaltyViewModel(GamePlayer gamePlayer, IEnumerable<PlayerPenalty> playerPenalties)
+        {
+            this.gamePlayer = gamePlayer;
+            this.playerPenalties = playerPenalties;
         }
     }
 }

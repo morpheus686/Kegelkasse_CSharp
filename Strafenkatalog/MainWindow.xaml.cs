@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Strafenkatalog.ViewModel;
+using System.Windows;
 
 namespace Strafenkatalog
 {
@@ -10,6 +11,15 @@ namespace Strafenkatalog
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (this.DataContext is MainWindowViewModel mwvm)
+            {
+                mwvm.Load();
+            }
         }
     }
 }

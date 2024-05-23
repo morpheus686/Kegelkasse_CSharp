@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
+using Microsoft.EntityFrameworkCore;
 using Strafenkatalog.Components;
 using Strafenkatalog.Models;
 using Strafenkatalog.Services;
@@ -37,8 +38,6 @@ namespace Strafenkatalog.ViewModel
             this.EditTeamsCommand = new AsyncCommand(EditTeamsExecuted);
             this.games = [.. this.context.Games.Where(g => g.Team == 1)];
             this.CurrentGame = games.LastOrDefault();
-
-            Load();
         }
 
         private async Task EditTeamsExecuted()
@@ -49,28 +48,33 @@ namespace Strafenkatalog.ViewModel
 
         public async Task EditPlayer(SumPerPlayer sumPerPlayer)
         {
-            var viewModel = new EditPenaltyViewModel(this.context, sumPerPlayer);
+            var queryable = this.context.GamePlayers.Where(x => x.Player == sumPerPlayer.PlayerId && x.Game == sumPerPlayer.GameId);
+            var gamePlayer = await queryable.FirstAsync();
+            var playerPenalties = this.context.PlayerPenalties.Where(pp => pp.GamePlayer == gamePlayer.Id).ToList();
+
+            foreach (var item in playerPenalties)
+            {
+                item.PenaltyNavigation = this.context.Penalties.Where(p => p.Id == item.Penalty).First();
+            }
+
+            var viewModel = new EditPenaltyViewModel(gamePlayer, playerPenalties);
             var result = await _dialogService.ShowDialog(viewModel);
 
             if (result is DialogResult dialogResult
                 && dialogResult == DialogResult.Yes)
             {
-                await _dialogService.ShowIndeterminateDialog(SaveChanges);
-                Load();
+                await _dialogService.ShowIndeterminateDialog(async vm =>
+                {
+                    var hasChanges = this.context.ChangeTracker.HasChanges();
+                    int updated = await this.context.SaveChangesAsync();
+                    bool hasTransaction = this.context.Database.CurrentTransaction != null;
+                    Load();
+                });
             }
         }
 
-        private async Task SaveChanges(IndeterminateProgressViewModel vm)
-        {
-            vm.Message = "Ich mache gerade etwas...";
-            await Task.Delay(10000);
-            vm.Message = "Bin gleich fertig";
-            await Task.Delay(2000);
-        }
-
         public void Load()
-        {           
-
+        {
             GridItems.Clear();
 
             foreach (var item in this.context.SumPerPlayers.Where(s => s.GameId == this.CurrentGame.Id))

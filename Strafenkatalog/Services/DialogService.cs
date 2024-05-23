@@ -23,14 +23,18 @@ namespace Strafenkatalog.Services
         public async Task ShowIndeterminateDialog(Func<IndeterminateProgressViewModel, Task> progressTask)
         {
             var vm = new IndeterminateProgressViewModel();
-            _dialogHost.Value.DialogContent = new IndeterminateProgressDialogView();
-            _dialogHost.Value.DataContext = vm;            
+
+            var view = new IndeterminateProgressDialogView
+            {
+                DataContext = vm
+            };
+
+            _dialogHost.Value.DialogContent = view;                        
             _dialogHost.Value.IsOpen = true;            
             await progressTask(vm);
             _dialogHost.Value.IsOpen = false;
-            _dialogHost.Value.DataContext = null;
+            _dialogHost.Value.DialogContent = null;
         }
-
 
         public Task ShowMessage(string message)
         {

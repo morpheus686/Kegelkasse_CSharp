@@ -35,7 +35,6 @@
                       DockPanel.Dock="Top"
                       ClipToBounds="False"
                       materialDesign:ElevationAssist.Elevation="Dp4" >
-
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -76,8 +75,8 @@
                 <StackPanel Grid.Row="0"
                             Orientation="Horizontal" Grid.ColumnSpan="2">
                     <Button Style="{StaticResource MaterialDesignIconButton}" 
-                        Content="{materialDesign:PackIcon Kind=ArrowLeft}"
-                        x:Name="PreviousPageButton"/>
+                            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
+                            x:Name="PreviousPageButton"/>
                     <TextBlock Text="22.03.2024" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
@@ -87,9 +86,9 @@
                 </StackPanel>
 
                 <DataGrid ItemsSource="{Binding GridItems}"
-                      AutoGenerateColumns="False" 
-                      IsReadOnly="True" 
-                      Margin="10,10,10,10"
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True" 
+                          Margin="10,10,10,10"
                           Grid.Row="1">
                     <DataGrid.Columns>
                         <materialDesign:DataGridTextColumn Header="Spieldatum" Binding="{Binding Date}"/>
@@ -104,8 +103,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Bearbeiten" 
-                                        Command="{Binding EditCommand}"
-                                        Style="{StaticResource MaterialDesignFlatButton}"/>
+                                            Command="{Binding EditCommand}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
