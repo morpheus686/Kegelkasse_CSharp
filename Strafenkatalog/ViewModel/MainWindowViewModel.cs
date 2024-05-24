@@ -28,6 +28,8 @@ namespace Strafenkatalog.ViewModel
         }
 
         public ICommand EditTeamsCommand { get; }
+        public ICommand PreviousGameCommand { get; }
+        public ICommand NextGameCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -36,8 +38,41 @@ namespace Strafenkatalog.ViewModel
             _dialogService = new DialogService();
             this.context = new StrafenkatalogContext();
             this.EditTeamsCommand = new AsyncCommand(EditTeamsExecuted);
-            this.games = [.. this.context.Games.Where(g => g.Team == 1)];
-            this.CurrentGame = games.LastOrDefault();
+
+            this.PreviousGameCommand = new RelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
+            this.NextGameCommand = new RelayCommand(ExecuteNextGameCommand, CanExecuteNextsGameCommand);
+        }
+
+        private bool CanExecuteNextsGameCommand()
+        {
+            return this.CurrentGame != null
+                && this.CurrentGame != this.games.Last();
+        }
+
+        private void ExecuteNextGameCommand()
+        {
+            if (this.CurrentGame != null)
+            {
+                var nextIndex = games.IndexOf(this.CurrentGame) + 1;
+                this.CurrentGame = this.games[nextIndex];
+                LoadData();
+            }
+        }
+
+        private bool CanExecutePreviousGameCommand()
+        {
+            return this.CurrentGame != null
+                && this.CurrentGame != this.games.First();
+        }
+
+        private void ExecutePreviousGameCommand()
+        {
+            if (this.CurrentGame != null)
+            {
+                var previousIndex = games.IndexOf(this.CurrentGame) - 1;
+                this.CurrentGame = this.games[previousIndex];
+                LoadData();
+            }
         }
 
         private async Task EditTeamsExecuted()
@@ -68,18 +103,29 @@ namespace Strafenkatalog.ViewModel
                     var hasChanges = this.context.ChangeTracker.HasChanges();
                     int updated = await this.context.SaveChangesAsync();
                     bool hasTransaction = this.context.Database.CurrentTransaction != null;
-                    Load();
+                    LoadData();
                 });
             }
         }
 
-        public void Load()
+        public void Initialize()
+        {
+            this.games = [.. this.context.Games.Where(g => g.Team == 1)];
+            this.CurrentGame = games.LastOrDefault();
+
+            LoadData();
+        }
+
+        private void LoadData()
         {
             GridItems.Clear();
 
-            foreach (var item in this.context.SumPerPlayers.Where(s => s.GameId == this.CurrentGame.Id))
+            if (this.currentGame != null)
             {
-                GridItems.Add(new MainDataGridItemViewModel(this, item));
+                foreach (var item in this.context.SumPerPlayers.Where(s => s.GameId == this.CurrentGame.Id))
+                {
+                    GridItems.Add(new MainDataGridItemViewModel(this, item));
+                }
             }
         }
     }

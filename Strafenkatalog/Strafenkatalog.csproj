@@ -23,6 +23,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="RelayCommand.Utils.Wpf.CommunityToolkit.Mvvm" Version="1.0.0.3" />
   </ItemGroup>
 
   <ItemGroup>

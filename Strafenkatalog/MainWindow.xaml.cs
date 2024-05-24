@@ -18,7 +18,7 @@ namespace Strafenkatalog
         {
             if (this.DataContext is MainWindowViewModel mwvm)
             {
-                mwvm.Load();
+                mwvm.Initialize();
             }
         }
     }

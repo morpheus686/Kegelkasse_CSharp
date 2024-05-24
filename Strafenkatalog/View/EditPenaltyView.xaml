@@ -70,29 +70,30 @@
                          Text="{Binding Errors, Mode=TwoWay}" />
         </Grid>
 
-        <ListBox Grid.Column="1" Margin="5"
+        <GroupBox Grid.Column="1" Margin="5">
+            <ListBox 
                  ItemsSource="{Binding PlayerPenalties}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100" />
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="{Binding PenaltyNavigation.Description, Mode=OneTime, FallbackValue=Test}"
+                            <TextBlock Text="{Binding PenaltyNavigation.Description, Mode=OneTime, FallbackValue=Test}"
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    Grid.Column="0"/>
-                        <TextBox Text="{Binding Value}"
+                            <TextBox Text="{Binding Value}"
                                  Grid.Column="1"
                                  HorizontalAlignment="Center"
                                  Width="50"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
 
         <StackPanel Grid.Row="2"
                     Grid.Column="1"
@@ -105,7 +106,8 @@
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                 CommandParameter="{x:Static components:DialogResult.Abort}"
                 Style="{StaticResource MaterialDesignFlatSecondaryButton}"
-                Margin="0,0,5,0"/>
+                Margin="0,0,5,0"
+                IsCancel="True"/>
 
             <Button 
                 Content="Speichern"

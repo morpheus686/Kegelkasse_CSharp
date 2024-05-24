@@ -76,13 +76,15 @@
                             Orientation="Horizontal" Grid.ColumnSpan="2">
                     <Button Style="{StaticResource MaterialDesignIconButton}" 
                             Content="{materialDesign:PackIcon Kind=ArrowLeft}"
-                            x:Name="PreviousPageButton"/>
-                    <TextBlock Text="22.03.2024" 
+                            x:Name="PreviousPageButton"
+                            Command="{Binding PreviousGameCommand, Mode=OneTime}"/>
+                    <TextBlock Text="{Binding CurrentGame.Date, Mode=OneWay}" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                     <Button Style="{StaticResource MaterialDesignIconButton}" 
                         Content="{materialDesign:PackIcon Kind=ArrowRight}"
-                        x:Name="NextPageButton"/>
+                        x:Name="NextPageButton"
+                            Command="{Binding NextGameCommand, Mode=OneTime}"/>
                 </StackPanel>
 
                 <DataGrid ItemsSource="{Binding GridItems}"
@@ -91,7 +93,6 @@
                           Margin="10,10,10,10"
                           Grid.Row="1">
                     <DataGrid.Columns>
-                        <materialDesign:DataGridTextColumn Header="Spieldatum" Binding="{Binding Date}"/>
                         <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
                         <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
                         <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
