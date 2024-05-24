@@ -12,7 +12,7 @@ namespace Strafenkatalog.ViewModel
     public class MainWindowViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
-        private readonly StrafenkatalogContext context;
+        private StrafenkatalogContext context;
         private Game? currentGame;
         private List<Game> games;
 
@@ -83,14 +83,15 @@ namespace Strafenkatalog.ViewModel
 
         public async Task EditPlayer(SumPerPlayer sumPerPlayer)
         {
-            var queryable = this.context.GamePlayers.Where(x => x.Player == sumPerPlayer.PlayerId && x.Game == sumPerPlayer.GameId);
-            var gamePlayer = await queryable.FirstAsync();
+            var gamePlayer = await this.context.GamePlayers.FirstAsync(x => x.Player == sumPerPlayer.PlayerId && x.Game == sumPerPlayer.GameId);
             var playerPenalties = this.context.PlayerPenalties.Where(pp => pp.GamePlayer == gamePlayer.Id).ToList();
 
             foreach (var item in playerPenalties)
             {
                 item.PenaltyNavigation = this.context.Penalties.Where(p => p.Id == item.Penalty).First();
             }
+
+            gamePlayer.PlayerNavigation = await this.context.Players.FirstAsync(p => p.Id == gamePlayer.Player);
 
             var viewModel = new EditPenaltyViewModel(gamePlayer, playerPenalties);
             var result = await _dialogService.ShowDialog(viewModel);
@@ -100,12 +101,16 @@ namespace Strafenkatalog.ViewModel
             {
                 await _dialogService.ShowIndeterminateDialog(async vm =>
                 {
-                    var hasChanges = this.context.ChangeTracker.HasChanges();
                     int updated = await this.context.SaveChangesAsync();
-                    bool hasTransaction = this.context.Database.CurrentTransaction != null;
-                    LoadData();
                 });
             }
+            else
+            {
+                await this.context.DisposeAsync();
+                this.context = new StrafenkatalogContext();
+            }
+
+            LoadData();
         }
 
         public void Initialize()
@@ -120,7 +125,7 @@ namespace Strafenkatalog.ViewModel
         {
             GridItems.Clear();
 
-            if (this.currentGame != null)
+            if (this.CurrentGame != null)
             {
                 foreach (var item in this.context.SumPerPlayers.Where(s => s.GameId == this.CurrentGame.Id))
                 {

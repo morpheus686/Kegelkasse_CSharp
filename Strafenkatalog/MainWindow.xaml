@@ -9,7 +9,7 @@
         xmlns:converter="clr-namespace:Strafenkatalog.Components.Converter"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Strafenkatalog.ViewModel"
-        Title="RT-Strafenkatalog" Height="800" Width="1200">
+        Title="RT-Strafenkatalog" Height="600" Width="800">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:EditPenaltyViewModel}">
             <view:EditPenaltyView />
@@ -29,6 +29,8 @@
                                        Identifier="DialogHost"
                                        x:Name="DialogHost">
         <DockPanel>
+            <materialDesign:Snackbar DockPanel.Dock="Top"/>
+
             <materialDesign:ColorZone Grid.Row="0" 
                       Padding="0"
                       Mode="PrimaryMid"
@@ -45,6 +47,8 @@
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
 
+                    <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="2"/>
+
                     <TextBlock Text="RT-Strafenkatalog" 
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
@@ -58,6 +62,8 @@
                         <StackPanel Orientation="Vertical">
                             <Button Content="Mannschaften anpassen"
                                     Command="{Binding EditTeamsCommand, Mode=OneTime}"/>
+                            <Button Content="Strafen verwalten"
+                                    />
                         </StackPanel>
                     </materialDesign:PopupBox>
                 </Grid>
@@ -65,7 +71,8 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="37*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -91,7 +98,8 @@
                           AutoGenerateColumns="False" 
                           IsReadOnly="True" 
                           Margin="10,10,10,10"
-                          Grid.Row="1">
+                          Grid.Row="1"
+                          CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2">
                     <DataGrid.Columns>
                         <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
                         <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
