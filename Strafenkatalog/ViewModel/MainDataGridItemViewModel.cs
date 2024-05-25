@@ -9,29 +9,30 @@ namespace Strafenkatalog.ViewModel
         public ICommand EditCommand { get; }
 
         private readonly MainWindowViewModel parent;
-        private readonly SumPerPlayer sumPerPlayer;
+        public SumPerPlayer SumPerPlayer { get; }
+        public DateOnly? Date { get => SumPerPlayer.Date; }
+        public string? TeamName { get => SumPerPlayer.TeamName; }
+        public string? Name { get => SumPerPlayer.Name; }
+        public double? PenaltySum { get => SumPerPlayer.PenaltySum; }
+        public int? Full { get => SumPerPlayer.Full; }
+        public int? Clear { get => SumPerPlayer.Clear; }
+        public int? Errors { get => SumPerPlayer.Errors; }
+        public int? HasPlayed { get => SumPerPlayer.Played; }
+        public int? Result { get => SumPerPlayer.Result; }
 
-        public DateOnly? Date { get => sumPerPlayer.Date; }
-        public string? TeamName { get => sumPerPlayer.TeamName; }
-        public string? Name { get => sumPerPlayer.Name; }
-        public double? PenaltySum { get => sumPerPlayer.PenaltySum; }
-        public int? Full { get => sumPerPlayer.Full; }
-        public int? Clear { get => sumPerPlayer.Clear; }
-        public int? Errors { get => sumPerPlayer.Errors; }
-        public int? HasPlayed { get => sumPerPlayer.Played; }
-        public int? Result { get => sumPerPlayer.Result; }
+
 
         public MainDataGridItemViewModel(MainWindowViewModel parent, 
             SumPerPlayer sumPerPlayer)
         {
             this.parent = parent;
-            this.sumPerPlayer = sumPerPlayer;
+            this.SumPerPlayer = sumPerPlayer;
             EditCommand = new AsyncCommand(ExecuteEdit);
         }
 
         private Task ExecuteEdit()
         {
-            return this.parent.EditPlayer(this.sumPerPlayer);
+            return this.parent.EditPlayer(this.SumPerPlayer);
         }
     }
 }

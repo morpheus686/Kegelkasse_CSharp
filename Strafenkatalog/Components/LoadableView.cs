@@ -7,7 +7,7 @@ namespace Strafenkatalog.Components
     {
         public LoadableView()
         {
-            Loaded += View_Loaded;
+            this.Loaded += View_Loaded;
         }
 
         private async void View_Loaded(object sender, System.Windows.RoutedEventArgs e)

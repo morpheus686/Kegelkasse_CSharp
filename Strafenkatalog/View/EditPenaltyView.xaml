@@ -22,8 +22,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid DataContext="{Binding GamePlayer, Mode=OneWay}"
-              Margin="5">
+        <Grid Margin="5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -43,7 +42,7 @@
             <TextBox Grid.Row="0"
                  Grid.Column="1"
                      IsReadOnly="True"
-                 Text="{Binding PlayerNavigation.Name, Mode=OneTime}"/>
+                 Text="{Binding Name, Mode=OneTime}"/>
             <TextBlock Text="Volle"
                    Grid.Row="1" 
                    FontSize="16"/>
@@ -61,7 +60,8 @@
            FontSize="16"/>
             <TextBox Grid.Row="3"
                          Grid.Column="1"
-                         Text="{Binding Result, Mode=TwoWay}" />
+                     IsReadOnly="True"
+                         Text="{Binding Result, Mode=OneWay}" />
             <TextBlock Text="Fehler"
                    Grid.Row="4" 
                    FontSize="16"/>
@@ -72,7 +72,7 @@
 
         <GroupBox Grid.Column="1" Margin="5">
             <ListBox 
-                 ItemsSource="{Binding PlayerPenalties}">
+                 ItemsSource="{Binding PlayerPenaltyViewModels}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -81,7 +81,7 @@
                                 <ColumnDefinition Width="100" />
                             </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{Binding PenaltyNavigation.Description, Mode=OneTime, FallbackValue=Test}"
+                            <TextBlock Text="{Binding Description, Mode=OneTime}"
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    Grid.Column="0"/>
@@ -100,24 +100,21 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button 
+                Content="Speichern"
+                Width="100"
+                HorizontalAlignment="Right"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                CommandParameter="{x:Static components:DialogResult.Yes}"
+                Margin="0,0,5,0"/>
+            <Button 
                 Content="Abbrechen"
                 Width="100"
                 HorizontalAlignment="Right"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
                 CommandParameter="{x:Static components:DialogResult.Abort}"
                 Style="{StaticResource MaterialDesignFlatSecondaryButton}"
-                Margin="0,0,5,0"
+                Margin="5,0,0,0"
                 IsCancel="True"/>
-
-            <Button 
-                Content="Speichern"
-                Width="100"
-                HorizontalAlignment="Right"
-                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                CommandParameter="{x:Static components:DialogResult.Yes}"
-                Margin="5,0,0,0"/>
         </StackPanel>
-
-
     </Grid>
 </components:DialogView>

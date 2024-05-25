@@ -17,6 +17,8 @@ namespace Strafenkatalog.ViewModel
         private List<Game> games;
 
         public ObservableCollection<MainDataGridItemViewModel> GridItems { get; set; }
+        public MainDataGridItemViewModel? SelectedGridItem { private get; set; }
+
         public Game? CurrentGame
         {
             get => currentGame;
@@ -30,6 +32,7 @@ namespace Strafenkatalog.ViewModel
         public ICommand EditTeamsCommand { get; }
         public ICommand PreviousGameCommand { get; }
         public ICommand NextGameCommand { get; }
+        public ICommand ShowEditPlayerDialogCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -38,9 +41,19 @@ namespace Strafenkatalog.ViewModel
             _dialogService = new DialogService();
             this.context = new StrafenkatalogContext();
             this.EditTeamsCommand = new AsyncCommand(EditTeamsExecuted);
-
             this.PreviousGameCommand = new RelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
             this.NextGameCommand = new RelayCommand(ExecuteNextGameCommand, CanExecuteNextsGameCommand);
+            this.ShowEditPlayerDialogCommand = new AsyncCommand(ExecuteShowEditPlayerDialogCommand);
+        }
+
+        private Task ExecuteShowEditPlayerDialogCommand()
+        {
+            if (SelectedGridItem == null)
+            {
+                throw new InvalidOperationException("Die Eigenschaft 'SelectedGridItem' darf nicht null sein!");
+            }
+
+            return EditPlayer(SelectedGridItem.SumPerPlayer);
         }
 
         private bool CanExecuteNextsGameCommand()
@@ -81,8 +94,13 @@ namespace Strafenkatalog.ViewModel
             await _dialogService.ShowDialog(vm);
         }
 
-        public async Task EditPlayer(SumPerPlayer sumPerPlayer)
+        public async Task EditPlayer(SumPerPlayer? sumPerPlayer)
         {
+            if (sumPerPlayer == null)
+            {
+                throw new ArgumentException("Argument sumPerPlayer darf nicht null sein!");
+            }
+
             var gamePlayer = await this.context.GamePlayers.FirstAsync(x => x.Player == sumPerPlayer.PlayerId && x.Game == sumPerPlayer.GameId);
             var playerPenalties = this.context.PlayerPenalties.Where(pp => pp.GamePlayer == gamePlayer.Id).ToList();
 

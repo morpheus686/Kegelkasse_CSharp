@@ -99,7 +99,13 @@
                           IsReadOnly="True" 
                           Margin="10,10,10,10"
                           Grid.Row="1"
-                          CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2">
+                          CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2"
+                          SelectedItem="{Binding SelectedGridItem, Mode=OneWayToSource}">
+                    <DataGrid.InputBindings>
+                        <MouseBinding
+                            MouseAction="LeftDoubleClick"
+                            Command="{Binding ShowEditPlayerDialogCommand, Mode=OneTime}"/>
+                    </DataGrid.InputBindings>
                     <DataGrid.Columns>
                         <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
                         <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
@@ -111,7 +117,7 @@
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Bearbeiten" 
+                                    <Button Content="{materialDesign:PackIcon Kind=Edit}" 
                                             Command="{Binding EditCommand}"
                                             Style="{StaticResource MaterialDesignFlatButton}"
                                             Margin="0"/>
