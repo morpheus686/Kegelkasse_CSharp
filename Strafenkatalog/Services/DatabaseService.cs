@@ -2,7 +2,7 @@
 
 namespace Strafenkatalog.Services
 {
-    public class DatabaseService : IDatabaseService
+    public class DatabaseService
     {
     }
 }
