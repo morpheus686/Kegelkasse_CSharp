@@ -19,7 +19,7 @@ jobs:
           dotnet-version: '8.0.x'
 
     - name: Restore NuGet Packages
-      run: nuget restore Strafenkatalog_CSharp.sln
+      run: dotnet restore Strafenkatalog_CSharp.sln
 
     - name: Build solution
       run: dotnet build -c Release Strafenkatalog_CSharp.sln
