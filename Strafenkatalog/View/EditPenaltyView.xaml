@@ -71,7 +71,7 @@
             <TextBlock Text="Fehler"
                    Grid.Row="4" 
                    FontSize="16"/>
-            
+
             <xceed:IntegerUpDown Grid.Row="4"
                                    Grid.Column="1"
                                    Value="{Binding Errors, Mode=TwoWay}" 
@@ -79,34 +79,35 @@
                                    Maximum="120"
                                  Increment="1"/>
         </Grid>
-
-        <GroupBox Grid.Column="1" Margin="5"
-                  Header="Strafen">
-            <ListBox 
+        <ListBox Grid.Column="1" Margin="5"
                  ItemsSource="{Binding PlayerPenaltyViewModels}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                            </Grid.ColumnDefinitions>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
 
-                            <TextBlock Text="{Binding Description, Mode=OneTime}"
+                        <TextBlock Text="{Binding Description, Mode=OneTime}"
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    Grid.Column="0"/>
-                            <xceed:IntegerUpDown Value="{Binding Value}"                                     
+                        <xceed:IntegerUpDown Value="{Binding Value}"                                     
                                                  IsEnabled="{Binding IsNotErrorPenalty, Mode=OneTime}"
                                                  Grid.Column="1"
                                                  HorizontalAlignment="Center"
                                                  Width="50"
                                                  Minimum="0" Maximum="120"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </GroupBox>
+
+                        <TextBlock Text="{Binding ToPay, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}"
+                                   Grid.Column="2"
+                                   />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <StackPanel Grid.Row="2"
                     Grid.Column="1"
