@@ -1,0 +1,1 @@
+Scaffold-DbContext "DataSource=.\Database\strafenkatalog.db" -provider Microsoft.EntityFrameworkCore.Sqlite -o .\Models -force

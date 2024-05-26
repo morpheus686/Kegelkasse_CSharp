@@ -9,7 +9,9 @@
         xmlns:converter="clr-namespace:Strafenkatalog.Components.Converter"
         mc:Ignorable="d"
         xmlns:vm="clr-namespace:Strafenkatalog.ViewModel"
-        Title="RT-Strafenkatalog" Height="600" Width="800">
+        Title="RT-Strafenkatalog" Height="600" Width="800"
+        WindowStyle="None"
+        ResizeMode="NoResize">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:EditPenaltyViewModel}">
             <view:EditPenaltyView />
@@ -36,26 +38,65 @@
                       Mode="PrimaryMid"
                       DockPanel.Dock="Top"
                       ClipToBounds="False"
-                      materialDesign:ElevationAssist.Elevation="Dp4" >
+                      materialDesign:ElevationAssist.Elevation="Dp4" 
+                      MouseDown="ColorZone_MouseDown">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
 
                     <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="2"/>
 
-                    <TextBlock Text="RT-Strafenkatalog" 
+
+                    <Button Grid.Column="3"  
+                    Width="25"
+                    Margin="10,10,5,10"
+                    Height="25"
+                        Padding="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                        Click="Minimize_Click">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="WindowMinimize" 
+                                 Height="15"
+                                 Width="15"
+                                 Foreground="White"/>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Grid.Column="4"  
+                        Width="25"
+                        Margin="5,10,10,10"
+                        Height="25"
+                        Padding="0"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                            Click="Close_Click"
+                        Style="{StaticResource MaterialDesignFlatDarkBgButton}">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="Close" 
+                                                 Height="15"
+                                                 Width="15"
+                                                 Margin="0"/>
+                        </Button.Content>
+                    </Button>
+
+                    <TextBlock Text="Mannschaftskasse RT 2 gemischt" 
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
-                               Grid.Column="0"
+                               Grid.Column="1"
                                FontSize="30"
                                Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
-                    <materialDesign:PopupBox Grid.Column="1"
+                    <materialDesign:PopupBox Grid.Column="2"
                                              Margin="15"
                                              StaysOpen="False"
                                              PlacementMode="BottomAndAlignRightEdges">
@@ -80,17 +121,28 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0"
+                            Margin="10,10,10, 0"
                             Orientation="Horizontal" Grid.ColumnSpan="2">
                     <Button Style="{StaticResource MaterialDesignIconButton}" 
                             Content="{materialDesign:PackIcon Kind=ArrowLeft}"
-                            x:Name="PreviousPageButton"
+                            Command="{Binding PreviousGameCommand, Mode=OneTime}"
+                            Visibility="Collapsed"/>
+                    <TextBlock Text="Saison 2023/2024" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                    <Button Style="{StaticResource MaterialDesignIconButton}" 
+                        Content="{materialDesign:PackIcon Kind=ArrowRight}"
+                            Command="{Binding NextGameCommand, Mode=OneTime}"
+                            Visibility="Collapsed"/>
+                    
+                    <Button Style="{StaticResource MaterialDesignIconButton}" 
+                            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
                             Command="{Binding PreviousGameCommand, Mode=OneTime}"/>
                     <TextBlock Text="{Binding CurrentGame.Date, Mode=OneWay}" 
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                     <Button Style="{StaticResource MaterialDesignIconButton}" 
                         Content="{materialDesign:PackIcon Kind=ArrowRight}"
-                        x:Name="NextPageButton"
                             Command="{Binding NextGameCommand, Mode=OneTime}"/>
                 </StackPanel>
 
@@ -107,7 +159,6 @@
                             Command="{Binding ShowEditPlayerDialogCommand, Mode=OneTime}"/>
                     </DataGrid.InputBindings>
                     <DataGrid.Columns>
-                        <materialDesign:DataGridTextColumn Header="Mannschaft" Binding="{Binding TeamName}"/>
                         <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
                         <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
                         <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>

@@ -54,7 +54,13 @@ namespace Strafenkatalog.ViewModel
 
                 if (value != null)
                 {
-                    this.playerPenaltyViewModels.First(p => p.PlayerPenalty.Penalty == 6).Value = value.Value;
+                    var errorPenalty = this.playerPenaltyViewModels.FirstOrDefault(p => p.PlayerPenalty.PenaltyNavigation.GetsValueByParent == 1);
+
+                    if (errorPenalty != null)
+                    {
+                        errorPenalty.Value = value.Value;
+                    }
+                    
                 }    
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Strafenkatalog.ViewModel;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Strafenkatalog
 {
@@ -20,6 +21,24 @@ namespace Strafenkatalog
             {
                 mwvm.Initialize();
             }
+        }
+
+        private void ColorZone_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

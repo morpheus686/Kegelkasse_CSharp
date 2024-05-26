@@ -1,14 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Strafenkatalog.Models;
+﻿using Strafenkatalog.Models;
 
 namespace Strafenkatalog.ViewModel
 {
-    public class PlayerPenaltyViewModel : ViewModelBase
+    public class PlayerPenaltyViewModel(PlayerPenalty playerPenalty) : ViewModelBase
     {
-        public PlayerPenaltyViewModel(PlayerPenalty playerPenalty)
-        {
-            PlayerPenalty = playerPenalty;
-        }
+        public PlayerPenalty PlayerPenalty { get; } = playerPenalty;
 
         public int Value
         {
@@ -21,12 +17,8 @@ namespace Strafenkatalog.ViewModel
             }
         }
 
-        public double ToPay
-        {
-            get { return PlayerPenalty.Value * PlayerPenalty.PenaltyNavigation.Penalty1; }
-        }
-
-        public PlayerPenalty PlayerPenalty { get; }
+        public double ToPay => PlayerPenalty.Value * PlayerPenalty.PenaltyNavigation.Penalty1;
+        public bool IsNotErrorPenalty => PlayerPenalty.PenaltyNavigation.GetsValueByParent == 0;
         public string Description => PlayerPenalty.PenaltyNavigation.Description;
     }
 }

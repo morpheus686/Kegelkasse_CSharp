@@ -5,8 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Strafenkatalog.View"
-                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
+                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodel="clr-namespace:Strafenkatalog.ViewModel"
+                       xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
+                       d:DataContext="{d:DesignInstance Type=viewmodel:EditPenaltyViewModel}"
+                       mc:Ignorable="d" 
                        Width="500"
              d:DesignHeight="450" d:DesignWidth="800"
              Style="{StaticResource DialogViewStyle}"
@@ -46,15 +48,19 @@
             <TextBlock Text="Volle"
                    Grid.Row="1" 
                    FontSize="16"/>
-            <TextBox Grid.Row="1"
+            <xceed:IntegerUpDown Grid.Row="1"
                  Grid.Column="1"
-                 Text="{Binding Full, Mode=TwoWay}"/>
+                 Value="{Binding Full, Mode=TwoWay}"
+                                 Minimum="0"
+                                 Maximum="600"/>
             <TextBlock Text="Abräumen"
            Grid.Row="2" 
            FontSize="16"/>
-            <TextBox Grid.Row="2"
+            <xceed:IntegerUpDown Grid.Row="2"
                      Grid.Column="1"
-                     Text="{Binding Clear, Mode=TwoWay}" />
+                     Value="{Binding Clear, Mode=TwoWay}" 
+                                 Minimum="0"
+                                 Maximum="300"/>
             <TextBlock Text="Gesamt"
            Grid.Row="3" 
            FontSize="16"/>
@@ -65,12 +71,17 @@
             <TextBlock Text="Fehler"
                    Grid.Row="4" 
                    FontSize="16"/>
-            <TextBox Grid.Row="4"
-                         Grid.Column="1"
-                         Text="{Binding Errors, Mode=TwoWay}" />
+            
+            <xceed:IntegerUpDown Grid.Row="4"
+                                   Grid.Column="1"
+                                   Value="{Binding Errors, Mode=TwoWay}" 
+                                   Minimum="0"
+                                   Maximum="120"
+                                 Increment="1"/>
         </Grid>
 
-        <GroupBox Grid.Column="1" Margin="5">
+        <GroupBox Grid.Column="1" Margin="5"
+                  Header="Strafen">
             <ListBox 
                  ItemsSource="{Binding PlayerPenaltyViewModels}">
                 <ListBox.ItemTemplate>
@@ -85,10 +96,12 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    Grid.Column="0"/>
-                            <TextBox Text="{Binding Value}"
-                                 Grid.Column="1"
-                                 HorizontalAlignment="Center"
-                                 Width="50"/>
+                            <xceed:IntegerUpDown Value="{Binding Value}"                                     
+                                                 IsEnabled="{Binding IsNotErrorPenalty, Mode=OneTime}"
+                                                 Grid.Column="1"
+                                                 HorizontalAlignment="Center"
+                                                 Width="50"
+                                                 Minimum="0" Maximum="120"/>
                         </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
