@@ -1,21 +1,20 @@
-# Use the official .NET image as a parent image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 80
-
+# Use the official .NET SDK image as a parent image
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["Strafenkatalog_CSharp.sln", "."]
-COPY ["Strafenkatalog/Strafenkatalog.csproj", "Strafenkatalog/"]
-RUN dotnet restore
+
+# Copy the solution file and restore dependencies
+COPY Strafenkatalog_CSharp.sln .
+COPY Strafenkatalog/Strafenkatalog.csproj Strafenkatalog/
+RUN dotnet restore Strafenkatalog/Strafenkatalog.csproj /p:EnableWindowsTargeting=true
+
+# Copy the remaining project files and build the project
 COPY . .
-WORKDIR "/src/Strafenkatalog"
-RUN dotnet build -c Release -o /app/build
+WORKDIR /src/Strafenkatalog
+RUN dotnet build -c Release -o /app /p:EnableWindowsTargeting=true
 
-FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish
-
-FROM base AS final
+# Use the ASP.NET runtime image as a base image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app .
 ENTRYPOINT ["dotnet", "Strafenkatalog.exe"]
+
