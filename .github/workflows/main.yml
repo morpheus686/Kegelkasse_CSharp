@@ -4,9 +4,12 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-20.04
    
     steps:
+    - name: Display Runner Info
+      run: uname -a
+    
     - name: Checkout Repository
       uses: actions/checkout@v2
 
