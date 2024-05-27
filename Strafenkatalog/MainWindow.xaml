@@ -20,7 +20,10 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:EditTeamsDialogViewModel}">
             <view:EditTeamsDialogView />
-        </DataTemplate>        
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <view:SettingsView />
+        </DataTemplate>
     </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -49,12 +52,13 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
 
                     <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="2"/>
 
 
-                    <Button Grid.Column="3"  
+                    <Button Grid.Column="4"  
                     Width="25"
                     Margin="10,10,5,10"
                     Height="25"
@@ -71,7 +75,7 @@
                         </Button.Content>
                     </Button>
 
-                    <Button Grid.Column="4"  
+                    <Button Grid.Column="5"  
                         Width="25"
                         Margin="5,10,10,10"
                         Height="25"
@@ -97,14 +101,28 @@
                     <materialDesign:PopupBox Grid.Column="2"
                                              Margin="15"
                                              StaysOpen="False"
-                                             PlacementMode="BottomAndAlignRightEdges">
+                                             PlacementMode="BottomAndAlignRightEdges"
+                                             Visibility="Collapsed">
                         <StackPanel Orientation="Vertical">
-                            <Button Content="Mannschaften anpassen"
-                                    Command="{Binding EditTeamsCommand, Mode=OneTime}"/>
-                            <Button Content="Strafen verwalten"
-                                    />
+                            <Button Content="Datenbank speichern" />
+                            <Button Content="Datenbank laden" />
+                            <Separator />
+                            <Button Content="Neue Saison anlegen" />
                         </StackPanel>
                     </materialDesign:PopupBox>
+
+                    <Button Grid.Column="3"
+                            Margin="10" 
+                            Width="25"
+                            Height="25"
+                            Padding="0"
+                            Command="{Binding OpenSettingsCommand, Mode=OneTime}">
+                        <Button.Content>
+                            <materialDesign:PackIcon Kind="Settings" 
+                                                     Height="15"
+                                                     Width="15"/>
+                        </Button.Content>
+                    </Button>
                 </Grid>
             </materialDesign:ColorZone>
 

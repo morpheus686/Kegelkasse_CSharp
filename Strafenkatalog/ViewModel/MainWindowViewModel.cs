@@ -33,6 +33,7 @@ namespace Strafenkatalog.ViewModel
         public ICommand PreviousGameCommand { get; }
         public ICommand NextGameCommand { get; }
         public ICommand ShowEditPlayerDialogCommand { get; }
+        public ICommand OpenSettingsCommand { get; }    
 
         public MainWindowViewModel()
         {
@@ -44,6 +45,13 @@ namespace Strafenkatalog.ViewModel
             this.PreviousGameCommand = new RelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
             this.NextGameCommand = new RelayCommand(ExecuteNextGameCommand, CanExecuteNextsGameCommand);
             this.ShowEditPlayerDialogCommand = new AsyncCommand(ExecuteShowEditPlayerDialogCommand);
+            this.OpenSettingsCommand = new AsyncCommand(ExecuteOpenSettingsCommand);
+        }
+
+        private async Task ExecuteOpenSettingsCommand()
+        {
+            var vm = new SettingsViewModel();
+            await _dialogService.ShowDialog(vm);
         }
 
         private Task ExecuteShowEditPlayerDialogCommand()
