@@ -25,7 +25,7 @@ jobs:
       run: dotnet build -c Release Strafenkatalog_CSharp.sln /p:EnableWindowsTargeting=true
 
     - name : Run Unit Tests   
-      run: dotnet test Kegelkasse.UnitTests/Kegelkasse.UnitTests.csproj /p:EnableWindowsTargeting=true -c Debug --no-restore --no-build
+      run: dotnet test Kegelkasse.UnitTests/Kegelkasse.UnitTests.csproj /p:EnableWindowsTargeting=true -c --no-restore --no-build
 
     - name: Create Docker Image
       run: docker build -t morpheus061986/strafenkatalog:latest .
