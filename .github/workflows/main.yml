@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore Strafenkatalog/Strafenkatalog.csproj
 
     - name: Build and publish project
-      run: dotnet publish Strafenkatalog/Strafenkatalog.csproj -c Release -r win-x64 --self-contained=true -o /app
+      run: dotnet publish Strafenkatalog/Strafenkatalog.csproj -c Release -r win-x64 --self-contained=false -o /app
 
     - name: Create Docker Image
       run: docker build -t morpheus061986/strafenkatalog:latest .
