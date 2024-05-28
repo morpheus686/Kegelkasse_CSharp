@@ -5,20 +5,15 @@ WORKDIR /src
 # Copy the solution file and restore dependencies
 COPY Strafenkatalog_CSharp.sln .
 COPY Strafenkatalog/Strafenkatalog.csproj Strafenkatalog/
-RUN dotnet restore Strafenkatalog/Strafenkatalog.csproj /p:EnableWindowsTargeting=true
+RUN dotnet restore Strafenkatalog/Strafenkatalog.csproj
 
-# Copy the remaining project files
+# Copy the remaining project files and publish the project as a self-contained application
 COPY . .
-
-# Set working directory to the project folder
 WORKDIR /src/Strafenkatalog
+RUN dotnet publish -c Release -r win-x64 --self-contained=true -o /app
 
-# Run the publish command with detailed output for debugging
-RUN dotnet publish -c Release -r linux-x64 --self-contained=true -o /app /p:EnableWindowsTargeting=true || \
-    (echo "dotnet publish failed" && find . -name '*.csproj' -exec cat {} \; && exit 1)
-
-# Use a base image with a minimal OS
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0 AS runtime
+# Use the Windows Server Core image as a base image
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["./Strafenkatalog"]
+ENTRYPOINT ["./Strafenkatalog.exe"]

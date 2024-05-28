@@ -4,28 +4,25 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
-   
+    runs-on: windows-2019
+
     steps:
     - name: Display Runner Info
-      run: uname -a
-    
+      run: systeminfo
+
     - name: Checkout Repository
       uses: actions/checkout@v2
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-          dotnet-version: '8.0.x'
+        dotnet-version: '8.0.x'
 
     - name: Restore NuGet Packages
-      run: dotnet restore Strafenkatalog_CSharp.sln /p:EnableWindowsTargeting=true
+      run: dotnet restore Strafenkatalog_CSharp.sln
 
-    - name: Build solution
-      run: dotnet build -c Release Strafenkatalog_CSharp.sln /p:EnableWindowsTargeting=true
-
-    #- name : Run Unit Tests   
-    #  run: dotnet test -c Release --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
+    - name: Build and publish solution
+      run: dotnet publish -c Release -r win-x64 --self-contained=true -o /app
 
     - name: Create Docker Image
       run: docker build -t morpheus061986/strafenkatalog:latest .
