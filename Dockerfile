@@ -2,13 +2,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy the solution file and restore dependencies
-COPY Strafenkatalog_CSharp.sln .
+# Copy the project file and restore dependencies
 COPY Strafenkatalog/Strafenkatalog.csproj Strafenkatalog/
 RUN dotnet restore Strafenkatalog/Strafenkatalog.csproj
 
-# Copy the remaining project files and publish the project as a self-contained application
-COPY . .
+# Copy the remaining project files and publish the project
+COPY Strafenkatalog/ Strafenkatalog/
 WORKDIR /src/Strafenkatalog
 RUN dotnet publish -c Release -r win-x64 --self-contained=true -o /app
 
