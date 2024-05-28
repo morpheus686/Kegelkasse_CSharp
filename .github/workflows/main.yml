@@ -24,6 +24,9 @@ jobs:
     - name: Build solution
       run: dotnet build -c Release Strafenkatalog_CSharp.sln /p:EnableWindowsTargeting=true
 
+    - name : Run Unit Tests   
+      run: DotNet test strafenkatalog_csharp.sln /p:EnableWindowsTargeting=true
+
     - name: Create Docker Image
       run: docker build -t morpheus061986/strafenkatalog:latest .
 
