@@ -1,5 +1,5 @@
-# Use the official .NET SDK image as a parent image
-FROM mcr.microsoft.com/dotnet/sdk:8.0-windowsservercore-ltsc2022 AS build
+# Verwenden Sie ein Windows Servercore-Image als Basisimage
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019 AS build
 WORKDIR /src
 
 # Copy the project file and restore dependencies
