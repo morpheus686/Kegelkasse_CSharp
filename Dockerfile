@@ -7,14 +7,13 @@ COPY Strafenkatalog_CSharp.sln .
 COPY Strafenkatalog/Strafenkatalog.csproj Strafenkatalog/
 RUN dotnet restore Strafenkatalog/Strafenkatalog.csproj /p:EnableWindowsTargeting=true
 
-# Copy the remaining project files and build the project
+# Copy the remaining project files and publish the project
 COPY . .
 WORKDIR /src/Strafenkatalog
-RUN dotnet build -c Release -o /app /p:EnableWindowsTargeting=true
+RUN dotnet publish -c Release -o /app /p:EnableWindowsTargeting=true
 
 # Use the ASP.NET runtime image as a base image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "Strafenkatalog.exe"]
-
+ENTRYPOINT ["dotnet", "Strafenkatalog.dll"]
