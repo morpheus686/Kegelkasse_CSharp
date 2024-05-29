@@ -11,9 +11,13 @@ namespace Strafenkatalog.ViewModel
     public class GamePlayerTabViewModel : LoadableViewModel
     {
         private readonly IDialogService _dialogService;
+        private int? teamErrors;
+        private int? teamFull;
         private StrafenkatalogContext context;
         private Game? currentGame;
         private List<Game> games;
+        private int? teamResult;
+        private int? teamClear;
 
         public ObservableCollection<MainDataGridItemViewModel> GridItems { get; set; }
         public MainDataGridItemViewModel? SelectedGridItem { private get; set; }
@@ -24,6 +28,46 @@ namespace Strafenkatalog.ViewModel
             set
             {
                 currentGame = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int? TeamResult
+        {
+            get { return teamResult; }
+            private set 
+            { 
+                teamResult = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int? TeamClear
+        {
+            get { return teamClear; }
+            private set 
+            { 
+                teamClear = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int? TeamFull
+        {
+            get { return teamFull; }
+            set 
+            { 
+                teamFull = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int? TeamErrors
+        {
+            get { return teamErrors; }
+            set 
+            { 
+                teamErrors = value; 
                 RaisePropertyChanged();
             }
         }
@@ -142,6 +186,12 @@ namespace Strafenkatalog.ViewModel
                 {
                     GridItems.Add(new MainDataGridItemViewModel(this, item));
                 }
+
+                var result = this.context.ResultOfGames.First(r => r.Id == this.CurrentGame.Id);
+                this.TeamResult = result.TotalResult;
+                this.TeamClear = result.TotalClear;
+                this.TeamFull = result.TotalFull;
+                this.TeamErrors = result.TotalErrors;
             }
         }
     }

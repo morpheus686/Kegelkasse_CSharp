@@ -14,10 +14,10 @@
     </components:TabView.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="13*"/>
-            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -31,7 +31,8 @@
                             Visibility="Collapsed"/>
             <TextBlock Text="Saison 2023/2024" 
                                HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
+                               VerticalAlignment="Center"
+                       Visibility="Collapsed"/>
             <Button Style="{StaticResource MaterialDesignIconButton}" 
                         Content="{materialDesign:PackIcon Kind=ArrowRight}"
                             Command="{Binding NextGameCommand, Mode=OneTime}"
@@ -48,12 +49,66 @@
                             Command="{Binding NextGameCommand, Mode=OneTime}"/>
         </StackPanel>
 
+        <GroupBox Grid.Row="1"
+                  Header="Spieldaten"
+                  Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Mannschaftsergebnis" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Grid.Column="1" 
+                         IsReadOnly="True"
+                         Margin="10"
+                         Text="{Binding TeamResult, Mode=OneWay}"/>
+                <TextBlock Text="Fehler" Grid.Row="1" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Grid.Column="1" 
+                         Grid.Row="1"
+                         IsReadOnly="True"
+                         Margin="10"
+                         Text="{Binding TeamErrors, Mode=OneWay}"/>
+                <TextBlock Text="Volle" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Grid.Column="3" 
+                         Grid.Row="0"
+                         IsReadOnly="True"
+                         Margin="10"
+                         Text="{Binding TeamFull, Mode=OneWay}"/>
+                <TextBlock Text="Abräumen" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Grid.Column="3" 
+                         Grid.Row="1"
+                         IsReadOnly="True"
+                         Margin="10"
+                         Text="{Binding TeamClear, Mode=OneWay}"/>
+                <TextBlock Text="Zu zahlen" Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Grid.Column="5" 
+                         Grid.Row="0"
+                         IsReadOnly="True"
+                         Margin="10"/>
+                <TextBlock Text="Gezahlt" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" Margin="10"/>
+                <TextBox Grid.Column="5" 
+                         Grid.Row="1"
+                         IsReadOnly="True"
+                         Margin="10"/>
+            </Grid>
+        </GroupBox>
+
         <DataGrid ItemsSource="{Binding GridItems}"
                               AutoGenerateColumns="False" 
                               IsReadOnly="True" 
                               Margin="10,10,10,10"
-                              Grid.Row="1"
-                              CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2"
+                              Grid.Row="2"
+                              CellStyle="{StaticResource DataGridCellStyle}"
                               SelectedItem="{Binding SelectedGridItem, Mode=OneWayToSource}">
             <DataGrid.InputBindings>
                 <MouseBinding
@@ -63,9 +118,17 @@
             <DataGrid.Columns>
                 <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
                 <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
-                <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>
+                <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>      
+                <materialDesign:DataGridTextColumn Header="Gesamt" Binding="{Binding Result}"/>
                 <materialDesign:DataGridTextColumn Header="Fehler" Binding="{Binding Errors}"/>
-                <materialDesign:DataGridTextColumn Header="Gespielt" Binding="{Binding Result}"/>
+                <DataGridTemplateColumn Header="Hat gespielt">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding HasPlayed, Mode=OneWay}" 
+                                      HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <materialDesign:DataGridTextColumn Header="Strafe" Binding="{Binding PenaltySum, Converter={StaticResource EuroFormatConverter}}"/>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>

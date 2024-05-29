@@ -54,12 +54,15 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
-
+                    
+                    <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="6"/>
+                    
                     <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                   Grid.Column="0"
                                   Margin="10"
-                                  x:Name="MenuToggleButton"/>
-                    <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="2"/>
+                                  x:Name="MenuToggleButton"
+                                  Visibility="Collapsed"/>
+
                     <Button Grid.Column="4"  
                             Width="25"
                             Margin="10,10,5,10"
@@ -118,7 +121,8 @@
                             Width="25"
                             Height="25"
                             Padding="0"
-                            Command="{Binding OpenSettingsCommand, Mode=OneTime}">
+                            Command="{Binding OpenSettingsCommand, Mode=OneTime}"
+                            Visibility="Collapsed">
                         <Button.Content>
                             <materialDesign:PackIcon Kind="Settings" 
                                                      Height="15"

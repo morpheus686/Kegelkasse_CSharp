@@ -16,8 +16,8 @@
 
 
                 <materialDesign:BundledTheme BaseTheme="Inherit"
-                                     PrimaryColor="Orange"
-                                     SecondaryColor="Yellow" 
+                                     PrimaryColor="Red"
+                                     SecondaryColor="Blue" 
                                      ColorAdjustment="{materialDesign:ColorAdjustment}"/>
 
             </ResourceDictionary.MergedDictionaries>
