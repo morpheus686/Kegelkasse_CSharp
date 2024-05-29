@@ -45,7 +45,7 @@
                          Style="{StaticResource MaterialDesignToolRadioButton}">
                 <RadioButton.Content>
                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Games" Margin="15"/>
+                        <materialDesign:PackIcon Kind="HumanMaleBoard" Margin="15"/>
                         <TextBlock Text="Mannschaften" VerticalAlignment="Center"/>
                     </StackPanel>
                 </RadioButton.Content>

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Strafenkatalog"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:view="clr-namespace:Strafenkatalog.View"
         mc:Ignorable="d"
@@ -24,6 +23,9 @@
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
             <view:SettingsView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GamePlayerTabViewModel}">
+            <view:GamePlayerTabView />
+        </DataTemplate>
     </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -32,8 +34,6 @@
                                        Identifier="DialogHost"
                                        x:Name="DialogHost">
         <DockPanel>
-            <materialDesign:Snackbar DockPanel.Dock="Top"/>
-
             <materialDesign:ColorZone Grid.Row="0" 
                       Padding="0"
                       Mode="PrimaryMid"
@@ -55,18 +55,20 @@
                         <ColumnDefinition Width="auto" />
                     </Grid.ColumnDefinitions>
 
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                                  Grid.Column="0"
+                                  Margin="10"
+                                  x:Name="MenuToggleButton"/>
                     <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="2"/>
-
-
                     <Button Grid.Column="4"  
-                    Width="25"
-                    Margin="10,10,5,10"
-                    Height="25"
-                        Padding="0"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource MaterialDesignFlatLightBgButton}"
-                        Click="Minimize_Click">
+                            Width="25"
+                            Margin="10,10,5,10"
+                            Height="25"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                            Click="Minimize_Click">
                         <Button.Content>
                             <materialDesign:PackIcon Kind="WindowMinimize" 
                                  Height="15"
@@ -76,14 +78,14 @@
                     </Button>
 
                     <Button Grid.Column="5"  
-                        Width="25"
-                        Margin="5,10,10,10"
-                        Height="25"
-                        Padding="0"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
+                            Width="25"
+                            Margin="5,10,10,10"
+                            Height="25"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
                             Click="Close_Click"
-                        Style="{StaticResource MaterialDesignFlatDarkBgButton}">
+                            Style="{StaticResource MaterialDesignFlatDarkBgButton}">
                         <Button.Content>
                             <materialDesign:PackIcon Kind="Close" 
                                                  Height="15"
@@ -126,74 +128,40 @@
                 </Grid>
             </materialDesign:ColorZone>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="13*"/>
-                    <ColumnDefinition Width="37*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+            <materialDesign:DrawerHost
+                IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
+                <materialDesign:DrawerHost.LeftDrawerContent>
+                    <DockPanel Width="200">
+                        <StackPanel Orientation="Vertical">
+                            <RadioButton Padding="0"
+                                Style="{StaticResource MaterialDesignToolRadioButton}"
+                                         Command="{Binding SetGamePlayerTabCommand, Mode=OneTime}">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Games" Margin="15"/>
+                                        <TextBlock Text="Spiele" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
 
-                <StackPanel Grid.Row="0"
-                            Margin="10,10,10, 0"
-                            Orientation="Horizontal" Grid.ColumnSpan="2">
-                    <Button Style="{StaticResource MaterialDesignIconButton}" 
-                            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
-                            Command="{Binding PreviousGameCommand, Mode=OneTime}"
-                            Visibility="Collapsed"/>
-                    <TextBlock Text="Saison 2023/2024" 
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    <Button Style="{StaticResource MaterialDesignIconButton}" 
-                        Content="{materialDesign:PackIcon Kind=ArrowRight}"
-                            Command="{Binding NextGameCommand, Mode=OneTime}"
-                            Visibility="Collapsed"/>
-                    
-                    <Button Style="{StaticResource MaterialDesignIconButton}" 
-                            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
-                            Command="{Binding PreviousGameCommand, Mode=OneTime}"/>
-                    <TextBlock Text="{Binding CurrentGame.Date, Mode=OneWay}" 
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    <Button Style="{StaticResource MaterialDesignIconButton}" 
-                        Content="{materialDesign:PackIcon Kind=ArrowRight}"
-                            Command="{Binding NextGameCommand, Mode=OneTime}"/>
-                </StackPanel>
+                            <RadioButton Padding="0"
+                                Style="{StaticResource MaterialDesignToolRadioButton}"
+                                         Command="{Binding SetStatisticsTabCommand, Mode=OneTime}">
+                                <RadioButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Information" Margin="15"/>
+                                        <TextBlock Text="Statistik" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </StackPanel>
+                    </DockPanel>
+                </materialDesign:DrawerHost.LeftDrawerContent>
+                
+                <view:GamePlayerTabView x:Name="MainArea" 
+                                DataContext="{Binding CurrentTab, Mode=OneWay}"/>
+            </materialDesign:DrawerHost>
 
-                <DataGrid ItemsSource="{Binding GridItems}"
-                          AutoGenerateColumns="False" 
-                          IsReadOnly="True" 
-                          Margin="10,10,10,10"
-                          Grid.Row="1"
-                          CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2"
-                          SelectedItem="{Binding SelectedGridItem, Mode=OneWayToSource}">
-                    <DataGrid.InputBindings>
-                        <MouseBinding
-                            MouseAction="LeftDoubleClick"
-                            Command="{Binding ShowEditPlayerDialogCommand, Mode=OneTime}"/>
-                    </DataGrid.InputBindings>
-                    <DataGrid.Columns>
-                        <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
-                        <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
-                        <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>
-                        <materialDesign:DataGridTextColumn Header="Fehler" Binding="{Binding Errors}"/>
-                        <materialDesign:DataGridTextColumn Header="Gespielt" Binding="{Binding Result}"/>
-                        <materialDesign:DataGridTextColumn Header="Strafe" Binding="{Binding PenaltySum, Converter={StaticResource EuroFormatConverter}}"/>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button Content="{materialDesign:PackIcon Kind=Edit}" 
-                                            Command="{Binding EditCommand}"
-                                            Style="{StaticResource MaterialDesignFlatButton}"
-                                            Margin="0"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </Grid>
         </DockPanel>
     </materialDesign:DialogHost>
 </Window>

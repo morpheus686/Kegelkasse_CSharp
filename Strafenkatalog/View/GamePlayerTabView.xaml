@@ -1,0 +1,83 @@
+﻿<components:TabView x:Class="Strafenkatalog.View.GamePlayerTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:components="clr-namespace:Strafenkatalog.Components"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converter="clr-namespace:Strafenkatalog.Components.Converter"
+             xmlns:local="clr-namespace:Strafenkatalog.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <components:TabView.Resources>
+        <converter:EuroFormatConverter x:Key="EuroFormatConverter"/>
+    </components:TabView.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="13*"/>
+            <ColumnDefinition Width="37*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                            Margin="10,10,10, 0"
+                            Orientation="Horizontal" Grid.ColumnSpan="2">
+            <Button Style="{StaticResource MaterialDesignIconButton}" 
+                            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
+                            Command="{Binding PreviousGameCommand, Mode=OneTime}"
+                            Visibility="Collapsed"/>
+            <TextBlock Text="Saison 2023/2024" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+            <Button Style="{StaticResource MaterialDesignIconButton}" 
+                        Content="{materialDesign:PackIcon Kind=ArrowRight}"
+                            Command="{Binding NextGameCommand, Mode=OneTime}"
+                            Visibility="Collapsed"/>
+
+            <Button Style="{StaticResource MaterialDesignIconButton}" 
+                            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
+                            Command="{Binding PreviousGameCommand, Mode=OneTime}"/>
+            <TextBlock Text="{Binding CurrentGame.Date, Mode=OneWay}" 
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+            <Button Style="{StaticResource MaterialDesignIconButton}" 
+                        Content="{materialDesign:PackIcon Kind=ArrowRight}"
+                            Command="{Binding NextGameCommand, Mode=OneTime}"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding GridItems}"
+                              AutoGenerateColumns="False" 
+                              IsReadOnly="True" 
+                              Margin="10,10,10,10"
+                              Grid.Row="1"
+                              CellStyle="{StaticResource DataGridCellStyle}" Grid.ColumnSpan="2"
+                              SelectedItem="{Binding SelectedGridItem, Mode=OneWayToSource}">
+            <DataGrid.InputBindings>
+                <MouseBinding
+                            MouseAction="LeftDoubleClick"
+                            Command="{Binding ShowEditPlayerDialogCommand, Mode=OneTime}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <materialDesign:DataGridTextColumn Header="Spieler" Binding="{Binding Name}"/>
+                <materialDesign:DataGridTextColumn Header="Volle" Binding="{Binding Full}" />
+                <materialDesign:DataGridTextColumn Header="Abräumen" Binding="{Binding Clear}"/>
+                <materialDesign:DataGridTextColumn Header="Fehler" Binding="{Binding Errors}"/>
+                <materialDesign:DataGridTextColumn Header="Gespielt" Binding="{Binding Result}"/>
+                <materialDesign:DataGridTextColumn Header="Strafe" Binding="{Binding PenaltySum, Converter={StaticResource EuroFormatConverter}}"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="{materialDesign:PackIcon Kind=Edit}" 
+                                            Command="{Binding EditCommand}"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            Margin="0"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</components:TabView>

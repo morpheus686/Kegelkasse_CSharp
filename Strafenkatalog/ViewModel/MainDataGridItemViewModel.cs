@@ -8,7 +8,7 @@ namespace Strafenkatalog.ViewModel
     {
         public ICommand EditCommand { get; }
 
-        private readonly MainWindowViewModel parent;
+        private readonly GamePlayerTabViewModel parent;
         public SumPerPlayer SumPerPlayer { get; }
         public DateOnly? Date { get => SumPerPlayer.Date; }
         public string? TeamName { get => SumPerPlayer.TeamName; }
@@ -20,9 +20,7 @@ namespace Strafenkatalog.ViewModel
         public int? HasPlayed { get => SumPerPlayer.Played; }
         public int? Result { get => SumPerPlayer.Result; }
 
-
-
-        public MainDataGridItemViewModel(MainWindowViewModel parent, 
+        public MainDataGridItemViewModel(GamePlayerTabViewModel parent,
             SumPerPlayer sumPerPlayer)
         {
             this.parent = parent;
