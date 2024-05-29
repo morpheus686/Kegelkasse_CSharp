@@ -5,7 +5,7 @@ namespace Kegelkasse.UnitTests
 {
     public class IntegrationTests
     {
-        
+
         private readonly StrafenkatalogContext context;
 
         public IntegrationTests()
@@ -32,6 +32,26 @@ namespace Kegelkasse.UnitTests
             var errorPenalty = vm.PlayerPenaltyViewModels.Where(ppvm => !ppvm.IsNotErrorPenalty).FirstOrDefault();
             Assert.That(errorPenalty, Is.Not.Null);
             Assert.That(errorPenalty.Value, Is.EqualTo(newErrorValue));
+            Assert.Pass();
+        }
+
+        [Test]
+        public void CalculateTotalResult_Success()
+        {
+            var gamePlayer = this.context.GamePlayers.First();
+            var vm = new EditPenaltyViewModel(gamePlayer, Enumerable.Empty<PlayerPenalty>());
+
+            var originalClearValue = vm.Clear;
+            var originalFullValue = vm.Full;
+            var originalTotalResultValue = vm.Result;
+
+            var newFullValue = originalFullValue + 1;
+            vm.Full = newFullValue;
+            Assert.That(vm.Result, Is.EqualTo(originalTotalResultValue + 1));
+
+            var newClearValue = originalClearValue - 1;
+            vm.Clear = newClearValue;
+            Assert.That(vm.Result, Is.EqualTo(originalTotalResultValue));
             Assert.Pass();
         }
 
