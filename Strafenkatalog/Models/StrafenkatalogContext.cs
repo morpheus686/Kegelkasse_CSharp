@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace Strafenkatalog.Models;
 
@@ -30,6 +32,8 @@ public partial class StrafenkatalogContext : DbContext
     public virtual DbSet<PlayerPenalty> PlayerPenalties { get; set; }
 
     public virtual DbSet<PlayersOfGame> PlayersOfGames { get; set; }
+
+    public virtual DbSet<ResultOfGame> ResultOfGames { get; set; }
 
     public virtual DbSet<SumPerGame> SumPerGames { get; set; }
 
@@ -147,6 +151,15 @@ public partial class StrafenkatalogContext : DbContext
             entity
                 .HasNoKey()
                 .ToView("PlayersOfGame");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+        });
+
+        modelBuilder.Entity<ResultOfGame>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("ResultOfGame");
 
             entity.Property(e => e.Id).HasColumnName("ID");
         });

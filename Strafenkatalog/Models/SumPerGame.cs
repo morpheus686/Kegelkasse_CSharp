@@ -5,9 +5,7 @@ namespace Strafenkatalog.Models;
 
 public partial class SumPerGame
 {
-    public DateOnly? Date { get; set; }
-
-    public string? TeamName { get; set; }
+    public int? GameId { get; set; }
 
     public double? PenaltySum { get; set; }
 }
