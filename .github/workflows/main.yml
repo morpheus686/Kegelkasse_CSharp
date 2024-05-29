@@ -25,7 +25,7 @@ jobs:
       run: dotnet publish Strafenkatalog_CSharp.sln -c Release -r win-x64 --self-contained=false -o /app
 
     - name : Run Unit Tests   
-      run: dotnet test -c Release --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
+      run: dotnet test Strafenkatalog_CSharp.sln -c Release -r win-x64 --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
 
     - name: Create Docker Image
       run: docker build -t morpheus061986/strafenkatalog:latest .
