@@ -94,12 +94,14 @@
                 <TextBox Grid.Column="5" 
                          Grid.Row="0"
                          IsReadOnly="True"
-                         Margin="10"/>
+                         Margin="10"
+                         Text="{Binding ToPay, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}"/>
                 <TextBlock Text="Gezahlt" Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" Margin="10"/>
                 <TextBox Grid.Column="5" 
                          Grid.Row="1"
                          IsReadOnly="True"
-                         Margin="10"/>
+                         Margin="10"
+                         Text="{Binding Paid, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}"/>
             </Grid>
         </GroupBox>
 
@@ -125,7 +127,9 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding HasPlayed, Mode=OneWay}" 
-                                      HorizontalAlignment="Center"/>
+                                      HorizontalAlignment="Center"
+                                      IsHitTestVisible="False"
+                                      Focusable="False"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

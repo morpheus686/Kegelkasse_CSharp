@@ -11,6 +11,8 @@ namespace Strafenkatalog.ViewModel
     public class GamePlayerTabViewModel : LoadableViewModel
     {
         private readonly IDialogService _dialogService;
+        private double? toPay;
+        private double? paid;
         private int? teamErrors;
         private int? teamFull;
         private StrafenkatalogContext context;
@@ -68,6 +70,26 @@ namespace Strafenkatalog.ViewModel
             set 
             { 
                 teamErrors = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public double? ToPay
+        {
+            get { return toPay; }
+            private set 
+            { 
+                toPay = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+        public double? Paid
+        {
+            get => paid;
+            private set
+            {
+                paid = value;
                 RaisePropertyChanged();
             }
         }
@@ -192,6 +214,11 @@ namespace Strafenkatalog.ViewModel
                 this.TeamClear = result.TotalClear;
                 this.TeamFull = result.TotalFull;
                 this.TeamErrors = result.TotalErrors;
+
+                var gamesum = this.context.SumPerGames.First(s => s.GameId == this.CurrentGame.Id);
+                this.ToPay = gamesum.PenaltySum;
+
+                //this.Paid = this.context.PaidPerGames.First(p => p.Game == this.CurrentGame.Id).Paid;
             }
         }
     }

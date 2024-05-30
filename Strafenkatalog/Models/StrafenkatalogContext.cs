@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Strafenkatalog.Models;
 
@@ -22,6 +20,8 @@ public partial class StrafenkatalogContext : DbContext
     public virtual DbSet<Game> Games { get; set; }
 
     public virtual DbSet<GamePlayer> GamePlayers { get; set; }
+
+    public virtual DbSet<PaidPerGame> PaidPerGames { get; set; }
 
     public virtual DbSet<Penalty> Penalties { get; set; }
 
@@ -100,6 +100,13 @@ public partial class StrafenkatalogContext : DbContext
             entity.HasOne(d => d.PlayerNavigation).WithMany(p => p.GamePlayers)
                 .HasForeignKey(d => d.Player)
                 .OnDelete(DeleteBehavior.ClientSetNull);
+        });
+
+        modelBuilder.Entity<PaidPerGame>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("PaidPerGame");
         });
 
         modelBuilder.Entity<Penalty>(entity =>
