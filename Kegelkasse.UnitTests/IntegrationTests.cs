@@ -1,5 +1,6 @@
 using Kegelkasse.Models;
-using Strafenkatalog.ViewModel;
+using Kegelkasse.ViewModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kegelkasse.UnitTests
 {
@@ -10,7 +11,8 @@ namespace Kegelkasse.UnitTests
 
         public IntegrationTests()
         {
-            this.context = new StrafenkatalogContext();
+            var contextOptions = new DbContextOptions<StrafenkatalogContext>();
+            this.context = new StrafenkatalogContext(contextOptions);
         }
 
         [Test]
