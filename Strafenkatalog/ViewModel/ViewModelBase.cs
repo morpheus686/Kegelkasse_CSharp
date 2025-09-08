@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

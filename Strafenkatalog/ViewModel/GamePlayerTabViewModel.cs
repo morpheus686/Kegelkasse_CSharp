@@ -1,15 +1,17 @@
-﻿using AsyncAwaitBestPractices.MVVM;
+﻿
+using CommunityToolkit.Mvvm.Input;
+using Kegelkasse.Components;
+using Kegelkasse.Models;
+using Kegelkasse.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Strafenkatalog.Components;
-using Strafenkatalog.Models;
-using Strafenkatalog.Services.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
-    public class GamePlayerTabViewModel : LoadableViewModel
+    public class GamePlayerTabViewModel : LoadableViewModelBase
     {
+        private const int TeamId = 1;
         private readonly IDialogService _dialogService;
         private double? toPay;
         private double? paid;
@@ -31,6 +33,9 @@ namespace Strafenkatalog.ViewModel
             {
                 currentGame = value;
                 RaisePropertyChanged();
+
+                NextGameCommand.NotifyCanExecuteChanged();
+                PreviousGameCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -104,9 +109,9 @@ namespace Strafenkatalog.ViewModel
             games = [];
             _dialogService = dialogService;
             this.context = context;
-            this.PreviousGameCommand = new RelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
-            this.NextGameCommand = new RelayCommand(ExecuteNextGameCommand, CanExecuteNextsGameCommand);
-            this.ShowEditPlayerDialogCommand = new AsyncCommand(ExecuteShowEditPlayerDialogCommand);            
+            PreviousGameCommand = new AsyncRelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
+            NextGameCommand = new AsyncRelayCommand(ExecuteNextGameCommand, CanExecuteNextGameCommand);
+            ShowEditPlayerDialogCommand = new AsyncRelayCommand(ExecuteShowEditPlayerDialogCommand);            
         }
 
         private Task ExecuteShowEditPlayerDialogCommand()
@@ -119,35 +124,36 @@ namespace Strafenkatalog.ViewModel
             return EditPlayer(SelectedGridItem.SumPerPlayer);
         }
 
-        private bool CanExecuteNextsGameCommand()
+        private bool CanExecuteNextGameCommand()
         {
-            return this.CurrentGame != null
-                && this.CurrentGame != this.games.Last();
+            return CurrentGame != null
+                && CurrentGame != games.Last();
         }
 
-        private void ExecuteNextGameCommand()
+        private async Task ExecuteNextGameCommand()
         {
-            if (this.CurrentGame != null)
+            if (CurrentGame != null)
             {
-                var nextIndex = games.IndexOf(this.CurrentGame) + 1;
-                this.CurrentGame = this.games[nextIndex];
-                LoadData();
+                var nextIndex = games.IndexOf(CurrentGame) + 1;
+                CurrentGame = games[nextIndex];
+                await LoadDataAsync();
             }
         }
 
         private bool CanExecutePreviousGameCommand()
         {
-            return this.CurrentGame != null
-                && this.CurrentGame != this.games.First();
+            bool canExecute = CurrentGame != null
+                && CurrentGame != games.First();
+            return canExecute;
         }
 
-        private void ExecutePreviousGameCommand()
+        private async Task ExecutePreviousGameCommand()
         {
-            if (this.CurrentGame != null)
+            if (CurrentGame != null)
             {
-                var previousIndex = games.IndexOf(this.CurrentGame) - 1;
-                this.CurrentGame = this.games[previousIndex];
-                LoadData();
+                var previousIndex = games.IndexOf(CurrentGame) - 1;
+                CurrentGame = games[previousIndex];
+                await LoadDataAsync();
             }
         }
 
@@ -158,15 +164,15 @@ namespace Strafenkatalog.ViewModel
                 throw new ArgumentException("Argument sumPerPlayer darf nicht null sein!");
             }
 
-            var gamePlayer = await this.context.GamePlayers.FirstAsync(x => x.Player == sumPerPlayer.PlayerId && x.Game == sumPerPlayer.GameId);
-            var playerPenalties = this.context.PlayerPenalties.Where(pp => pp.GamePlayer == gamePlayer.Id).ToList();
+            var gamePlayer = await context.GamePlayers.FirstAsync(x => x.Player == sumPerPlayer.PlayerId && x.Game == sumPerPlayer.GameId);
+            var playerPenalties = context.PlayerPenalties.Where(pp => pp.GamePlayer == gamePlayer.Id).ToList();
 
             foreach (var item in playerPenalties)
             {
-                item.PenaltyNavigation = this.context.Penalties.Where(p => p.Id == item.Penalty).First();
+                item.PenaltyNavigation = context.Penalties.Where(p => p.Id == item.Penalty).First();
             }
 
-            gamePlayer.PlayerNavigation = await this.context.Players.FirstAsync(p => p.Id == gamePlayer.Player);
+            gamePlayer.PlayerNavigation = await context.Players.FirstAsync(p => p.Id == gamePlayer.Player);
 
             var viewModel = new EditPenaltyViewModel(gamePlayer, playerPenalties);
             var result = await _dialogService.ShowDialog(viewModel);
@@ -176,45 +182,49 @@ namespace Strafenkatalog.ViewModel
             {
                 await _dialogService.ShowIndeterminateDialog(async vm =>
                 {
-                    int updated = await this.context.SaveChangesAsync();
+                    int updated = await context.SaveChangesAsync();
                 });
             }
-            else
-            {
-                await this.context.DisposeAsync();
-                this.context = new StrafenkatalogContext();
-            }
 
-            LoadData();
+            await LoadDataAsync();
         }
 
-        protected override void InitializeInternal()
+        protected override Task InitializeInternalAsync()
         {
-            this.games = [.. this.context.Games.Where(g => g.Team == 1)];
-            this.CurrentGame = games.LastOrDefault();
-
-            LoadData();
+            return ReloadGames();
         }
 
-        private void LoadData()
+        public async Task ReloadGames()
+        {
+            LoadGames();
+            await LoadDataAsync();
+        }
+
+        private void LoadGames()
+        {
+            games = [.. context.Games.Where(g => g.Team == TeamId).OrderBy(g => g.Date)];
+            CurrentGame = games.LastOrDefault();
+        }
+
+        private async Task LoadDataAsync()
         {
             GridItems.Clear();
 
-            if (this.CurrentGame != null)
+            if (CurrentGame != null)
             {
-                foreach (var item in this.context.SumPerPlayers.Where(s => s.GameId == this.CurrentGame.Id))
+                foreach (var item in context.SumPerPlayers.Where(s => s.GameId == CurrentGame.Id))
                 {
                     GridItems.Add(new MainDataGridItemViewModel(this, item));
                 }
 
-                var result = this.context.ResultOfGames.First(r => r.Id == this.CurrentGame.Id);
-                this.TeamResult = result.TotalResult;
-                this.TeamClear = result.TotalClear;
-                this.TeamFull = result.TotalFull;
-                this.TeamErrors = result.TotalErrors;
+                var result = await context.ResultOfGames.FirstAsync(r => r.Id == CurrentGame.Id);
+                TeamResult = result.TotalResult;
+                TeamClear = result.TotalClear;
+                TeamFull = result.TotalFull;
+                TeamErrors = result.TotalErrors;
 
-                var gamesum = this.context.SumPerGames.First(s => s.GameId == this.CurrentGame.Id);
-                this.ToPay = gamesum.PenaltySum;
+                var gamesum = await context.SumPerGames.FirstAsync(s => s.GameId == CurrentGame.Id);
+                ToPay = gamesum.PenaltySum;
 
                 //this.Paid = this.context.PaidPerGames.First(p => p.Game == this.CurrentGame.Id).Paid;
             }

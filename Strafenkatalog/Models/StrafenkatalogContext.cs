@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
-namespace Strafenkatalog.Models;
+namespace Kegelkasse.Models;
 
 public partial class StrafenkatalogContext : DbContext
 {
-    public StrafenkatalogContext()
-    {
-    }
-
     public StrafenkatalogContext(DbContextOptions<StrafenkatalogContext> options)
         : base(options)
     {
@@ -35,6 +33,8 @@ public partial class StrafenkatalogContext : DbContext
 
     public virtual DbSet<ResultOfGame> ResultOfGames { get; set; }
 
+    public virtual DbSet<Season> Seasons { get; set; }
+
     public virtual DbSet<SumPerGame> SumPerGames { get; set; }
 
     public virtual DbSet<SumPerPlayer> SumPerPlayers { get; set; }
@@ -44,9 +44,6 @@ public partial class StrafenkatalogContext : DbContext
     public virtual DbSet<Team> Teams { get; set; }
 
     public virtual DbSet<TeamPenalty> TeamPenalties { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite("DataSource=.\\Database\\strafenkatalog.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,9 +76,9 @@ public partial class StrafenkatalogContext : DbContext
         {
             entity.ToTable("Game");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
+
+            entity.HasOne(d => d.Season).WithMany(p => p.Games).HasForeignKey(d => d.SeasonId);
 
             entity.HasOne(d => d.TeamNavigation).WithMany(p => p.Games)
                 .HasForeignKey(d => d.Team)
@@ -140,9 +137,7 @@ public partial class StrafenkatalogContext : DbContext
 
         modelBuilder.Entity<PlayerPenalty>(entity =>
         {
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
 
             entity.HasOne(d => d.GamePlayerNavigation).WithMany(p => p.PlayerPenalties)
                 .HasForeignKey(d => d.GamePlayer)
@@ -169,6 +164,11 @@ public partial class StrafenkatalogContext : DbContext
                 .ToView("ResultOfGame");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+        });
+
+        modelBuilder.Entity<Season>(entity =>
+        {
+            entity.HasIndex(e => e.Description, "IX_Seasons_Description").IsUnique();
         });
 
         modelBuilder.Entity<SumPerGame>(entity =>

@@ -1,6 +1,4 @@
-﻿using Strafenkatalog.Services.Interfaces;
-
-namespace Strafenkatalog.Services
+﻿namespace Kegelkasse.Services
 {
     public class DatabaseService
     {

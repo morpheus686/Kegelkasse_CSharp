@@ -1,8 +1,8 @@
-﻿using AsyncAwaitBestPractices.MVVM;
-using Strafenkatalog.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using Kegelkasse.Models;
 using System.Windows.Input;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
     public class MainDataGridItemViewModel
     {
@@ -24,13 +24,13 @@ namespace Strafenkatalog.ViewModel
             SumPerPlayer sumPerPlayer)
         {
             this.parent = parent;
-            this.SumPerPlayer = sumPerPlayer;
-            EditCommand = new AsyncCommand(ExecuteEdit);
+            SumPerPlayer = sumPerPlayer;
+            EditCommand = new AsyncRelayCommand(ExecuteEdit);
         }
 
         private Task ExecuteEdit()
         {
-            return this.parent.EditPlayer(this.SumPerPlayer);
+            return parent.EditPlayer(SumPerPlayer);
         }
     }
 }

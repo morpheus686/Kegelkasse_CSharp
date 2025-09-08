@@ -1,9 +1,9 @@
-﻿using Strafenkatalog.Models;
+﻿using Kegelkasse.Models;
 using System.Collections.ObjectModel;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
-    public class EditPenaltyViewModel : LoadableViewModel
+    public class EditPenaltyViewModel : LoadableViewModelBase
     {
 
         private GamePlayer gamePlayer;
@@ -17,14 +17,14 @@ namespace Strafenkatalog.ViewModel
 
         public int? Full
         {
-            get { return this.gamePlayer.Full; }
+            get { return gamePlayer.Full; }
             set
             {
-                this.gamePlayer.Full = value;
+                gamePlayer.Full = value;
                 RaisePropertyChanged();
 
-                this.gamePlayer.Result = value + this.gamePlayer.Clear;
-                RaisePropertyChanged(nameof(this.Result));
+                gamePlayer.Result = value + gamePlayer.Clear;
+                RaisePropertyChanged(nameof(Result));
             }
         }
 
@@ -32,29 +32,29 @@ namespace Strafenkatalog.ViewModel
         {
             get
             {
-                return this.gamePlayer.Clear;
+                return gamePlayer.Clear;
             }
             set
             {
-                this.gamePlayer.Clear = value;
+                gamePlayer.Clear = value;
                 RaisePropertyChanged();
 
-                this.gamePlayer.Result = value + this.gamePlayer.Full;
-                RaisePropertyChanged(nameof(this.Result));
+                gamePlayer.Result = value + gamePlayer.Full;
+                RaisePropertyChanged(nameof(Result));
             }
         }
 
         public int? Errors
         {
-            get { return this.gamePlayer.Errors; }
+            get { return gamePlayer.Errors; }
             set
             {
-                this.gamePlayer.Errors = value;
+                gamePlayer.Errors = value;
                 RaisePropertyChanged();
 
                 if (value != null)
                 {
-                    var errorPenalty = this.playerPenaltyViewModels.FirstOrDefault(p => p.PlayerPenalty.PenaltyNavigation.GetsValueByParent == 1);
+                    var errorPenalty = playerPenaltyViewModels.FirstOrDefault(p => p.PlayerPenalty.PenaltyNavigation.GetsValueByParent == 1);
 
                     if (errorPenalty != null)
                     {
@@ -65,8 +65,8 @@ namespace Strafenkatalog.ViewModel
             }
         }
 
-        public int? Result { get => this.gamePlayer.Result; }
-        public string Name { get => this.gamePlayer.PlayerNavigation.Name; }
+        public int? Result { get => gamePlayer.Result; }
+        public string Name { get => gamePlayer.PlayerNavigation.Name; }
 
         public IEnumerable<PlayerPenalty> PlayerPenalties => playerPenalties;
 
@@ -74,11 +74,11 @@ namespace Strafenkatalog.ViewModel
         {
             this.gamePlayer = gamePlayer;
             this.playerPenalties = playerPenalties;
-            this.playerPenaltyViewModels = [];
+            playerPenaltyViewModels = [];
 
             foreach (var item in this.playerPenalties)
             {
-                this.playerPenaltyViewModels.Add(new PlayerPenaltyViewModel(item));
+                playerPenaltyViewModels.Add(new PlayerPenaltyViewModel(item));
             }
         }
     }

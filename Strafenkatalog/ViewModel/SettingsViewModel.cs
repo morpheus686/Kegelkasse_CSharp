@@ -1,6 +1,6 @@
-﻿namespace Strafenkatalog.ViewModel
+﻿namespace Kegelkasse.ViewModel
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : LoadableViewModelBase
     {
     }
 }

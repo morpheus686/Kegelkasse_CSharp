@@ -1,8 +1,6 @@
-﻿using Strafenkatalog.Services.Interfaces;
-
-namespace Strafenkatalog.ViewModel
+﻿namespace Kegelkasse.ViewModel
 {
-    public class LoadableViewModel : ViewModelBase
+    public abstract class LoadableViewModelBase : ViewModelBase
     { 
         public Task Initialize()
         {

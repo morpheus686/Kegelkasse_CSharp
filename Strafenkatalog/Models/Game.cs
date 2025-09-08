@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Strafenkatalog.Models;
+namespace Kegelkasse.Models;
 
 public partial class Game
 {
@@ -15,7 +15,11 @@ public partial class Game
 
     public int? Gameday { get; set; }
 
+    public int? SeasonId { get; set; }
+
     public virtual ICollection<GamePlayer> GamePlayers { get; set; } = new List<GamePlayer>();
+
+    public virtual Season? Season { get; set; }
 
     public virtual Team TeamNavigation { get; set; } = null!;
 }

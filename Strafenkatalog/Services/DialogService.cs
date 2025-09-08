@@ -1,9 +1,9 @@
-﻿using MaterialDesignThemes.Wpf;
-using Strafenkatalog.Services.Interfaces;
-using Strafenkatalog.View;
-using Strafenkatalog.ViewModel;
+﻿using Kegelkasse.Services.Interfaces;
+using Kegelkasse.View;
+using Kegelkasse.ViewModel;
+using MaterialDesignThemes.Wpf;
 
-namespace Strafenkatalog.Services
+namespace Kegelkasse.Services
 {
     public class DialogService : IDialogService
     {
@@ -15,8 +15,9 @@ namespace Strafenkatalog.Services
             _dialogHost = new Lazy<DialogHost>(LoadDialogHost);
         }
 
-        public Task<object?> ShowDialog(ViewModelBase viewModel)
+        public Task<object?> ShowDialog(LoadableViewModelBase viewModel)
         {
+            viewModel.Initialize();
             return DialogHost.Show(viewModel, DialogIdentifier);
         }
 
@@ -43,7 +44,7 @@ namespace Strafenkatalog.Services
 
         private DialogHost LoadDialogHost()
         {
-            if (App.Current.MainWindow is not MainWindow mainWindow)
+            if (System.Windows.Application.Current.MainWindow is not MainWindow mainWindow)
             {
                 throw new InvalidOperationException("MainWindow wurde nicht gefunden!");
             }

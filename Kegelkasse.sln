@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strafenkatalog", "Strafenkatalog\Strafenkatalog.csproj", "{72675DBA-D26B-4017-AC32-14346CFB3E85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kegelkasse", "Strafenkatalog\Kegelkasse.csproj", "{72675DBA-D26B-4017-AC32-14346CFB3E85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{B6168E27-58E6-486D-9AA1-5BD29D5EF211}"
 	ProjectSection(SolutionItems) = preProject

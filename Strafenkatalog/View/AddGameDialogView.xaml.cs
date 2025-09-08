@@ -3,11 +3,11 @@
 namespace Kegelkasse.View
 {
     /// <summary>
-    /// Interaktionslogik für EditTeamsDialogView.xaml
+    /// Interaktionslogik für AddGameDialogView.xaml
     /// </summary>
-    public partial class EditTeamsDialogView : DialogView
+    public partial class AddGameDialogView : DialogView
     {
-        public EditTeamsDialogView()
+        public AddGameDialogView()
         {
             InitializeComponent();
         }

@@ -1,31 +1,30 @@
-﻿using Strafenkatalog.ViewModel;
+﻿using Kegelkasse.ViewModel;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
 
-namespace Strafenkatalog
+namespace Kegelkasse
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(MainWindowViewModel mainWindowViewModel)
         {
             InitializeComponent();
+            this.DataContext = mainWindowViewModel;
             this.Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (this.DataContext is MainWindowViewModel mwvm)
             {
-                mwvm.Initialize();
+                await mwvm.Initialize();
             }
         }
 
-        private void ColorZone_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ColorZone_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {

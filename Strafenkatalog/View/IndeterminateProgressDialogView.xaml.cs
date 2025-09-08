@@ -1,6 +1,6 @@
-﻿using Strafenkatalog.Components;
+﻿using Kegelkasse.Components;
 
-namespace Strafenkatalog.View
+namespace Kegelkasse.View
 {
     /// <summary>
     /// Interaktionslogik für IndeterminateProgressDialogView.xaml

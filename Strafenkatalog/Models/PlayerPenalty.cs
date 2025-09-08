@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Strafenkatalog.Models;
+namespace Kegelkasse.Models;
 
 public partial class PlayerPenalty
 {

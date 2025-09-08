@@ -1,8 +1,8 @@
-﻿using Strafenkatalog.Models;
+﻿using Kegelkasse.Models;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
-    public class EditTeamsDialogViewModel : LoadableViewModel
+    public class EditTeamsDialogViewModel : LoadableViewModelBase
     {
         private readonly StrafenkatalogContext context;
 

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace Kegelkasse.Models;
 
-public partial class PenaltyKind
+public partial class Season
 {
     public int Id { get; set; }
 
     public string Description { get; set; } = null!;
 
-    public virtual ICollection<Penalty> Penalties { get; set; } = new List<Penalty>();
+    public virtual ICollection<Game> Games { get; set; } = new List<Game>();
 }

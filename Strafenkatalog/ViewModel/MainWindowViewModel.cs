@@ -1,37 +1,86 @@
-﻿using AsyncAwaitBestPractices.MVVM;
-using Strafenkatalog.Components;
-using Strafenkatalog.Models;
-using Strafenkatalog.Services;
-using Strafenkatalog.Services.Interfaces;
+﻿using CommunityToolkit.Mvvm.Input;
+using Kegelkasse.Components;
+using Kegelkasse.Models;
+using Kegelkasse.Services;
+using Kegelkasse.Services.Interfaces;
 using System.Windows.Input;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : LoadableViewModelBase
     {
         private readonly IDialogService dialogService;
-        private StrafenkatalogContext context;
+        private readonly StrafenkatalogContext context;
 
-        public ICommand OpenSettingsCommand { get; }    
-        public ICommand SetGamePlayerTabCommand {  get; }
+        public ICommand OpenSettingsCommand { get; }
+        public ICommand SetGamePlayerTabCommand { get; }
         public ICommand SetStatisticsTabCommand { get; }
-        public ViewModelBase? CurrentTab { private set; get; }
+        public ICommand AddGameCommand { get; }
+
+        public LoadableViewModelBase? CurrentTab { private set; get; }
         public GamePlayerTabViewModel GamePlayerTabViewModel { get; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(GamePlayerTabViewModel gamePlayerTabViewModel, StrafenkatalogContext context)
         {
-            this.dialogService = new DialogService();
-            this.context = new StrafenkatalogContext();
-            this.GamePlayerTabViewModel = new GamePlayerTabViewModel(this.dialogService, this.context);
+            dialogService = new DialogService();
+            GamePlayerTabViewModel = gamePlayerTabViewModel;
+            this.context = context;
+            OpenSettingsCommand = new AsyncRelayCommand(ExecuteOpenSettingsCommand);
+            SetGamePlayerTabCommand = new RelayCommand(ExecuteSetGamePlayerCommand);
+            SetStatisticsTabCommand = new RelayCommand(ExecuteSetStatisticsTabCommand);
+            AddGameCommand = new AsyncRelayCommand(ExecuteAddGameCommand);
+        }
 
-            this.OpenSettingsCommand = new AsyncCommand(ExecuteOpenSettingsCommand);
-            this.SetGamePlayerTabCommand = new RelayCommand(ExecuteSetGamePlayerCommand);
-            this.SetStatisticsTabCommand = new RelayCommand(ExecuteSetStatisticsTabCommand);
+        private async Task ExecuteAddGameCommand()
+        {
+            var addgameViewModel = new AddGameDialogViewModel(context);
+            var result = await dialogService.ShowDialog(addgameViewModel);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("DialogService konnte kein gültiges Ergebnis für den Dialog liefern");
+            }
+
+            if ((DialogResult)result == DialogResult.Yes)
+            {
+                var newGame = new Game
+                {
+                    Team = addgameViewModel.SelectedTeam.Id,
+                    Date = DateOnly.FromDateTime(addgameViewModel.GameDate),
+                    Vs = addgameViewModel.Opponent,
+                    Gameday = addgameViewModel.GameNumber,
+                    Season = addgameViewModel.SelectedSeason
+                };
+
+                foreach (var player in addgameViewModel.SelectedPlayers)
+                {
+                    var newGamePlayer = new GamePlayer
+                    {
+                        Player = player.Id,
+                        Played = 1
+                    };
+
+                    foreach (var teamPenalty in context.TeamPenalties.Where(t => t.Team == addgameViewModel.SelectedTeam.Id))
+                    {
+                        newGamePlayer.PlayerPenalties.Add(new PlayerPenalty
+                        {
+                            Penalty = teamPenalty.Penalty,
+                            Value = 0
+                        });
+                    }
+
+                    newGame.GamePlayers.Add(newGamePlayer);
+                }
+
+                await context.AddAsync(newGame);
+                var affected = await context.SaveChangesAsync();
+                await GamePlayerTabViewModel.ReloadGames();
+            }
         }
 
         private void ExecuteSetStatisticsTabCommand()
         {
-            this.CurrentTab = null;
+            CurrentTab = null;
             RaisePropertyChanged(nameof(CurrentTab));
         }
 
@@ -42,7 +91,7 @@ namespace Strafenkatalog.ViewModel
 
         private void SetGamePlayerTabViewModel()
         {
-            this.CurrentTab = GamePlayerTabViewModel;
+            CurrentTab = GamePlayerTabViewModel;
             RaisePropertyChanged(nameof(CurrentTab));
         }
 
@@ -52,9 +101,19 @@ namespace Strafenkatalog.ViewModel
             await dialogService.ShowDialog(vm);
         }
 
-        internal void Initialize()
+        protected override void InitializeInternal()
         {
             SetGamePlayerTabViewModel();
+        }
+
+        protected async override Task InitializeInternalAsync()
+        {
+            SetGamePlayerTabViewModel();
+
+            if (CurrentTab != null)
+            {
+                await CurrentTab.Initialize();
+            }
         }
     }
 }

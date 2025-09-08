@@ -1,4 +1,4 @@
-using Strafenkatalog.Models;
+using Kegelkasse.Models;
 using Strafenkatalog.ViewModel;
 
 namespace Kegelkasse.UnitTests

@@ -1,4 +1,4 @@
-﻿namespace Strafenkatalog.ViewModel
+﻿namespace Kegelkasse.ViewModel
 {
     public class IndeterminateProgressViewModel : ViewModelBase
     {

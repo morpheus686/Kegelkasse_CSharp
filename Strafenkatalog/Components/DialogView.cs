@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Strafenkatalog.Components
+namespace Kegelkasse.Components
 {
     public class DialogView : LoadableView
     {
@@ -16,7 +16,7 @@ namespace Strafenkatalog.Components
                 "Header",
                 typeof(string),
                 typeof(DialogView),
-                new PropertyMetadata(String.Empty));
+                new PropertyMetadata(string.Empty));
 
         public DialogViewType DialogViewType
         {

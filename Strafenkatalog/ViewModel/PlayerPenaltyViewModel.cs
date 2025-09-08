@@ -1,6 +1,6 @@
-﻿using Strafenkatalog.Models;
+﻿using Kegelkasse.Models;
 
-namespace Strafenkatalog.ViewModel
+namespace Kegelkasse.ViewModel
 {
     public class PlayerPenaltyViewModel(PlayerPenalty playerPenalty) : ViewModelBase
     {
@@ -13,7 +13,7 @@ namespace Strafenkatalog.ViewModel
             {
                 PlayerPenalty.Value = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged(nameof(this.ToPay));
+                RaisePropertyChanged(nameof(ToPay));
             }
         }
 

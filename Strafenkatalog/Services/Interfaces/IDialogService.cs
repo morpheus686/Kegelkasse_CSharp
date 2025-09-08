@@ -1,10 +1,10 @@
-﻿using Strafenkatalog.ViewModel;
+﻿using Kegelkasse.ViewModel;
 
-namespace Strafenkatalog.Services.Interfaces
+namespace Kegelkasse.Services.Interfaces
 {
     public interface IDialogService
     {
-        Task<object?> ShowDialog(ViewModelBase viewModel);
+        Task<object?> ShowDialog(LoadableViewModelBase viewModel);
         Task ShowIndeterminateDialog(Func<IndeterminateProgressViewModel, Task> progressTask);
         Task ShowMessage(string message);
     }
