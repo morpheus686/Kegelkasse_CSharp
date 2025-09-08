@@ -106,9 +106,7 @@ namespace Strafenkatalog.ViewModel
             this.context = context;
             this.PreviousGameCommand = new RelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
             this.NextGameCommand = new RelayCommand(ExecuteNextGameCommand, CanExecuteNextsGameCommand);
-            this.ShowEditPlayerDialogCommand = new AsyncCommand(ExecuteShowEditPlayerDialogCommand);
-
-            InitializeInternal();
+            this.ShowEditPlayerDialogCommand = new AsyncCommand(ExecuteShowEditPlayerDialogCommand);            
         }
 
         private Task ExecuteShowEditPlayerDialogCommand()

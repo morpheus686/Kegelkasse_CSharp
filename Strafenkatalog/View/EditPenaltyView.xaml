@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Strafenkatalog.View"
-                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:viewmodel="clr-namespace:Strafenkatalog.ViewModel"
-                       xmlns:xceed="http://schemas.xceed.com/wpf/xaml/toolkit"
+                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+                       xmlns:viewmodel="clr-namespace:Strafenkatalog.ViewModel"
                        d:DataContext="{d:DesignInstance Type=viewmodel:EditPenaltyViewModel}"
                        mc:Ignorable="d" 
                        Width="500"
@@ -48,15 +48,16 @@
             <TextBlock Text="Volle"
                    Grid.Row="1" 
                    FontSize="16"/>
-            <xceed:IntegerUpDown Grid.Row="1"
-                 Grid.Column="1"
-                 Value="{Binding Full, Mode=TwoWay}"
-                                 Minimum="0"
-                                 Maximum="600"/>
+
+            <materialDesign:DecimalUpDown Grid.Row="1"
+                                          Grid.Column="1"
+                                          Value="{Binding Full, Mode=TwoWay}"
+                                          Minimum="0"
+                                          Maximum="500"/>
             <TextBlock Text="Abräumen"
            Grid.Row="2" 
            FontSize="16"/>
-            <xceed:IntegerUpDown Grid.Row="2"
+            <materialDesign:DecimalUpDown Grid.Row="2"
                      Grid.Column="1"
                      Value="{Binding Clear, Mode=TwoWay}" 
                                  Minimum="0"
@@ -72,12 +73,11 @@
                    Grid.Row="4" 
                    FontSize="16"/>
 
-            <xceed:IntegerUpDown Grid.Row="4"
+            <materialDesign:DecimalUpDown Grid.Row="4"
                                    Grid.Column="1"
                                    Value="{Binding Errors, Mode=TwoWay}" 
                                    Minimum="0"
-                                   Maximum="120"
-                                 Increment="1"/>
+                                   Maximum="120"/>
         </Grid>
         <ListBox Grid.Column="1" Margin="5"
                  ItemsSource="{Binding PlayerPenaltyViewModels}">
@@ -94,7 +94,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="16"
                                    Grid.Column="0"/>
-                        <xceed:IntegerUpDown Value="{Binding Value}"                                     
+                        <materialDesign:DecimalUpDown Value="{Binding Value}"                                     
                                                  IsEnabled="{Binding IsNotErrorPenalty, Mode=OneTime}"
                                                  Grid.Column="1"
                                                  HorizontalAlignment="Center"
@@ -109,26 +109,26 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <Button 
-                Content="Speichern"
-                Width="100"
-                HorizontalAlignment="Right"
-                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                CommandParameter="{x:Static components:DialogResult.Yes}"
-                Margin="0,0,5,0"/>
-            <Button 
-                Content="Abbrechen"
-                Width="100"
-                HorizontalAlignment="Right"
-                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                CommandParameter="{x:Static components:DialogResult.Abort}"
-                Style="{StaticResource MaterialDesignFlatSecondaryButton}"
-                Margin="5,0,0,0"
-                IsCancel="True"/>
-        </StackPanel>
+            <StackPanel Grid.Row="2"
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right">
+                <Button 
+                    Content="Speichern"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{x:Static components:DialogResult.Yes}"
+                    Margin="0,0,5,0"/>
+                <Button 
+                    Content="Abbrechen"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{x:Static components:DialogResult.Abort}"
+                    Style="{StaticResource MaterialDesignFlatSecondaryButton}"
+                    Margin="5,0,0,0"
+                    IsCancel="True"/>
+            </StackPanel>
     </Grid>
 </components:DialogView>

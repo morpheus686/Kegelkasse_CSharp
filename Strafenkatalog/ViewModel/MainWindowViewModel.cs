@@ -16,13 +16,15 @@ namespace Strafenkatalog.ViewModel
         public ICommand SetGamePlayerTabCommand {  get; }
         public ICommand SetStatisticsTabCommand { get; }
         public ViewModelBase? CurrentTab { private set; get; }
+        public GamePlayerTabViewModel GamePlayerTabViewModel { get; }
 
         public MainWindowViewModel()
         {
             this.dialogService = new DialogService();
             this.context = new StrafenkatalogContext();
-            this.OpenSettingsCommand = new AsyncCommand(ExecuteOpenSettingsCommand);
+            this.GamePlayerTabViewModel = new GamePlayerTabViewModel(this.dialogService, this.context);
 
+            this.OpenSettingsCommand = new AsyncCommand(ExecuteOpenSettingsCommand);
             this.SetGamePlayerTabCommand = new RelayCommand(ExecuteSetGamePlayerCommand);
             this.SetStatisticsTabCommand = new RelayCommand(ExecuteSetStatisticsTabCommand);
         }
@@ -40,7 +42,7 @@ namespace Strafenkatalog.ViewModel
 
         private void SetGamePlayerTabViewModel()
         {
-            this.CurrentTab = new GamePlayerTabViewModel(this.dialogService, this.context);
+            this.CurrentTab = GamePlayerTabViewModel;
             RaisePropertyChanged(nameof(CurrentTab));
         }
 

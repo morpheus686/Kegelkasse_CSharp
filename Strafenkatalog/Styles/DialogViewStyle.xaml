@@ -6,8 +6,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type components:DialogView}">
-                    <Grid
-                          Margin="20">
+                    <Grid  Margin="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
