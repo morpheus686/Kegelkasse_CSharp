@@ -5,6 +5,7 @@ WORKDIR /src
 # Copy solution and project files
 COPY Kegelkasse.sln ./
 COPY Kegelkasse/ Kegelkasse/
+COPY Kegelkasse.UnitTests/ Kegelkasse.UnitTests/
 
 # Restore dependencies
 RUN dotnet restore Kegelkasse.sln
