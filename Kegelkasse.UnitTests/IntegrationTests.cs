@@ -11,8 +11,10 @@ namespace Kegelkasse.UnitTests
 
         public IntegrationTests()
         {
-            var contextOptions = new DbContextOptions<StrafenkatalogContext>();
+            var contextOptions = new DbContextOptionsBuilder<StrafenkatalogContext>().UseSqlite("DataSource=.\\Database\\strafenkatalog.db").Options;
             this.context = new StrafenkatalogContext(contextOptions);
+            this.context.Database.OpenConnection();
+            this.context.Database.EnsureCreated();
         }
 
         [Test]
