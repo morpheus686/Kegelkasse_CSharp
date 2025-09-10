@@ -1,18 +1,21 @@
-# Use the official .NET SDK image as a parent image
+# 1. Build-Image mit SDK
 FROM mcr.microsoft.com/dotnet/sdk:8.0-windowsservercore-ltsc2022 AS build
 WORKDIR /src
 
-# Copy the project file and restore dependencies
-COPY Strafenkatalog/Strafenkatalog.csproj Strafenkatalog/
-RUN dotnet restore Strafenkatalog/Strafenkatalog.csproj
+# Copy solution and project files
+COPY Kegelkasse.sln ./
+COPY Kegelkasse/ Kegelkasse/
+COPY Kegelkasse.UnitTests/ Kegelkasse.UnitTests/
 
-# Copy the remaining project files and publish the project
-COPY Strafenkatalog/ Strafenkatalog/
-WORKDIR /src/Strafenkatalog
+# Restore dependencies
+RUN dotnet restore Kegelkasse.sln
+
+# Build and publish
+WORKDIR /src/Kegelkasse
 RUN dotnet publish -c Release -r win-x64 --self-contained=false -o /app
 
-# Use the ASP.NET runtime image as a base image
+# 2. Runtime-Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-windowsservercore-ltsc2022
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["dotnet", "Strafenkatalog.exe"]
+ENTRYPOINT ["dotnet", "Kegelkasse.exe"]
