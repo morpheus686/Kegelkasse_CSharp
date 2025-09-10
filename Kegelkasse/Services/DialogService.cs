@@ -1,6 +1,6 @@
-﻿using Kegelkasse.Services.Interfaces;
+﻿using Kegelkasse.Base.Services.Interfaces;
+using Kegelkasse.Base.ViewModel;
 using Kegelkasse.View;
-using Kegelkasse.ViewModel;
 using MaterialDesignThemes.Wpf;
 
 namespace Kegelkasse.Services
@@ -8,12 +8,6 @@ namespace Kegelkasse.Services
     public class DialogService : IDialogService
     {
         private const string DialogIdentifier = "DialogHost";
-        private readonly Lazy<DialogHost> _dialogHost;
-
-        public DialogService()
-        {
-            _dialogHost = new Lazy<DialogHost>(LoadDialogHost);
-        }
 
         public Task<object?> ShowDialog(LoadableViewModelBase viewModel)
         {
@@ -21,35 +15,39 @@ namespace Kegelkasse.Services
             return DialogHost.Show(viewModel, DialogIdentifier);
         }
 
-        public async Task ShowIndeterminateDialog(Func<IndeterminateProgressViewModel, Task> progressTask)
+        public Task ShowIndeterminateDialog(Func<IndeterminateProgressViewModel, Task> progressTask)
         {
-            var vm = new IndeterminateProgressViewModel();
+            return Task.CompletedTask;
+        }
 
-            var view = new IndeterminateProgressDialogView
+        public async Task ShowIndeterminateDialogAsync(Func<Action<string>, object?, Task> progressTask, object? parameter = null)
+        {
+            var viewModel = new IndeterminateProgressViewModel();
+            var showDialogTask = DialogHost.Show(viewModel, DialogIdentifier);
+
+            void updateMessage(string newMessage)
             {
-                DataContext = vm
-            };
+                viewModel.Message = newMessage;
+            }
 
-            _dialogHost.Value.DialogContent = view;                        
-            _dialogHost.Value.IsOpen = true;            
-            await progressTask(vm);
-            _dialogHost.Value.IsOpen = false;
-            _dialogHost.Value.DialogContent = null;
+            try
+            {
+                await progressTask(updateMessage, parameter);
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                DialogHost.Close(DialogIdentifier, viewModel);
+                await showDialogTask;
+            }
         }
 
         public Task ShowMessage(string message)
         {
             return Task.CompletedTask;
-        }
-
-        private DialogHost LoadDialogHost()
-        {
-            if (System.Windows.Application.Current.MainWindow is not MainWindow mainWindow)
-            {
-                throw new InvalidOperationException("MainWindow wurde nicht gefunden!");
-            }
-
-            return mainWindow.DialogHost;
         }
     }
 }

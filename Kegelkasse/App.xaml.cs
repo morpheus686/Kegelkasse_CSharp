@@ -1,8 +1,8 @@
 ﻿using Kegelkasse;
-using Kegelkasse.Models;
+using Kegelkasse.Base.Models;
+using Kegelkasse.Base.Services.Interfaces;
+using Kegelkasse.Base.ViewModel;
 using Kegelkasse.Services;
-using Kegelkasse.Services.Interfaces;
-using Kegelkasse.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

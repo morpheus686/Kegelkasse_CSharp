@@ -1,4 +1,4 @@
-﻿using Kegelkasse.ViewModel;
+﻿using Kegelkasse.Base.ViewModel;
 using System.Windows;
 using System.Windows.Input;
 

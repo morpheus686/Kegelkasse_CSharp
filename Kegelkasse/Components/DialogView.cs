@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Kegelkasse.Foundation.Enumerations;
+using System.Windows;
 
 namespace Kegelkasse.Components
 {

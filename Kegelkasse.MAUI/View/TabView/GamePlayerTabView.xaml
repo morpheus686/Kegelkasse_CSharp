@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kegelkasse.MAUI.View.TabView.GamePlayerTabView"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+             xmlns:tviewModel="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
+             x:DataType="tviewModel:GamePlayerTabViewModel">
+    <Grid RowDefinitions="auto,*">
+        <HorizontalStackLayout>
+            <Label Text="Spieltag" 
+                   FontSize="20"
+                   Margin="20"
+                   VerticalTextAlignment="Center"/>
+            <material:ButtonView StyleClass="FilledButton"
+                                 Margin="20"
+                                 TappedCommand="{Binding PreviousGameCommand, Mode=OneTime}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.ArrowLeft}" Color="White" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+            <Label Text="{Binding CurrentGame.Date, Mode=OneWay}" 
+                   FontSize="20"
+                   Margin="20"
+                   VerticalTextAlignment="Center"
+                   />
+            <material:ButtonView StyleClass="FilledButton"
+                                 Margin="20"
+                                 TappedCommand="{Binding NextGameCommand, Mode=OneTime}">
+                <Image>
+                    <Image.Source>
+                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.ArrowRight}" Color="White" />
+                    </Image.Source>
+                </Image>
+            </material:ButtonView>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentView>

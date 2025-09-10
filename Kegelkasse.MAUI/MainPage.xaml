@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<uranium:UraniumContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kegelkasse.MAUI.MainPage"
+                                         xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+                            xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+                            xmlns:viewModel="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
+                            xmlns:converter="clr-namespace:Kegelkasse.MAUI.Converter"
+                            x:DataType="{x:Type viewModel:MainWindowViewModel}"
+                            xmlns:tabView="clr-namespace:Kegelkasse.MAUI.View.TabView">
+    <uranium:UraniumContentPage.Resources>
+        <DataTemplate x:Key="GamePlayerTabViewTemplate" x:DataType="{x:Type viewModel:GamePlayerTabViewModel}">
+            <tabView:GamePlayerTabView />
+        </DataTemplate>
+
+        <converter:TabViewToTemplateConverter x:Key="TabViewToTemplateConverter"
+                                              GamePlayerTabView="{StaticResource GamePlayerTabViewTemplate}"/>
+    </uranium:UraniumContentPage.Resources>
+
+    <Grid RowDefinitions="auto,*">
+        <Grid BackgroundColor="DarkRed" Padding="10" ColumnDefinitions="*">
+            <Label Text="Kegelkasse" 
+                      VerticalOptions="Center"
+                      TextColor="White"
+                      FontSize="20"/>
+        </Grid>
+
+        <ContentView Grid.Row="1"
+                         Content="{Binding CurrentTab, Converter={StaticResource TabViewToTemplateConverter}}"
+                         HorizontalOptions="Fill"
+                         VerticalOptions="Fill"/>
+    </Grid>
+
+</uranium:UraniumContentPage>

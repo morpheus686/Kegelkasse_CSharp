@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:view="clr-namespace:Kegelkasse.View"
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:Kegelkasse.ViewModel"
+        xmlns:vm="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
         Title="RT-Kegelkasse" Height="600" Width="800"
         WindowStyle="None"
         ResizeMode="NoResize">

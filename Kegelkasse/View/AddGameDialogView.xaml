@@ -9,6 +9,7 @@
                        Style="{StaticResource DialogViewStyle}"
                        Header="Spieltag anlegen"
                        xmlns:components="clr-namespace:Kegelkasse.Components"
+                       xmlns:enumerations="clr-namespace:Kegelkasse.Foundation.Enumerations;assembly=Kegelkasse.Foundation"
                        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -126,7 +127,7 @@
                     Width="100"
                     HorizontalAlignment="Right"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    CommandParameter="{x:Static components:DialogResult.Yes}"
+                    CommandParameter="{x:Static enumerations:DialogResult.Yes}"
                     Margin="0,0,5,0"
                 IsEnabled="{Binding HasErrors, Converter={StaticResource InverseBooleanConverter}}" Cursor="Hand"/>
             <Button 
@@ -134,7 +135,7 @@
                     Width="100"
                     HorizontalAlignment="Right"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    CommandParameter="{x:Static components:DialogResult.Abort}"
+                    CommandParameter="{x:Static enumerations:DialogResult.Abort}"
                     Style="{StaticResource MaterialDesignFlatSecondaryButton}"
                     Margin="5,0,0,0"
                     IsCancel="True"/>

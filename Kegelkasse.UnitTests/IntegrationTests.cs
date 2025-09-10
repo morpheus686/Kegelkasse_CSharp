@@ -1,5 +1,5 @@
-using Kegelkasse.Models;
-using Kegelkasse.ViewModel;
+using Kegelkasse.Base.Models;
+using Kegelkasse.Base.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kegelkasse.UnitTests

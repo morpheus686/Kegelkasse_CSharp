@@ -6,7 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kegelkasse.View"
                        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-                       xmlns:viewmodel="clr-namespace:Kegelkasse.ViewModel"
+                       xmlns:viewmodel="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
+                       xmlns:enumerations="clr-namespace:Kegelkasse.Foundation.Enumerations;assembly=Kegelkasse.Foundation"
                        d:DataContext="{d:DesignInstance Type=viewmodel:EditPenaltyViewModel}"
                        mc:Ignorable="d" 
                        Width="500"
@@ -118,14 +119,14 @@
                     Width="100"
                     HorizontalAlignment="Right"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    CommandParameter="{x:Static components:DialogResult.Yes}"
+                    CommandParameter="{x:Static enumerations:DialogResult.Yes}"
                     Margin="0,0,5,0"/>
                 <Button 
                     Content="Abbrechen"
                     Width="100"
                     HorizontalAlignment="Right"
                     Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    CommandParameter="{x:Static components:DialogResult.Abort}"
+                    CommandParameter="{x:Static enumerations:DialogResult.Abort}"
                     Style="{StaticResource MaterialDesignFlatSecondaryButton}"
                     Margin="5,0,0,0"
                     IsCancel="True"/>

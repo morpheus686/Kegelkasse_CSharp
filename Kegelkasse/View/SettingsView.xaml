@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:components="clr-namespace:Kegelkasse.Components"
+                       xmlns:enumerations="clr-namespace:Kegelkasse.Foundation.Enumerations;assembly=Kegelkasse.Foundation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                        xmlns:mahApps="http://metro.mahapps.com/winfx/xaml/iconpacks"
@@ -71,14 +72,14 @@
                 Width="100"
                 HorizontalAlignment="Right"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                CommandParameter="{x:Static components:DialogResult.Yes}"
+                CommandParameter="{x:Static enumerations:DialogResult.Yes}"
                 Margin="0,0,5,0"/>
 			<Button
                 Content="Abbrechen"
                 Width="100"
                 HorizontalAlignment="Right"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                CommandParameter="{x:Static components:DialogResult.Abort}"
+                CommandParameter="{x:Static enumerations:DialogResult.Abort}"
                 Style="{StaticResource MaterialDesignFlatSecondaryButton}"
                 Margin="5,0,0,0"
                 IsCancel="True"/>
