@@ -28,7 +28,7 @@ jobs:
 #      run: dotnet test Kegelkasse.sln -c Release -r win-x64 --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
 
     - name: Upload publish folder
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Kegelkasse-publish
         path: ./publish
