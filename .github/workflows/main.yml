@@ -19,7 +19,7 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore NuGet Packages
-      run: dotnet restore Kegelkasse.Kegelkasse.csproj
+      run: dotnet restore Kegelkasse/Kegelkasse.csproj
 
     - name: Build and publish project
       run: dotnet publish Kegelkasse/Kegelkasse.csproj -c Release -r win-x64 --self-contained=false -o /app
