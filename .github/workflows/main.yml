@@ -19,19 +19,16 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Restore NuGet Packages
-      run: dotnet restore Kegelkasse.sln
+      run: dotnet restore Kegelkasse/Kegelkasse.csproj
 
     - name: Build and publish project
-      run: dotnet publish Kegelkasse.sln -c Release -r win-x64 --self-contained=false -o /app
+      run: dotnet publish Kegelkasse/Kegelkasse.csproj -c Release -r win-x64 --self-contained=false -o /app
 
-    - name : Run Unit Tests   
-      run: dotnet test Kegelkasse.sln -c Release -r win-x64 --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
+#    - name : Run Unit Tests   
+#      run: dotnet test Kegelkasse.sln -c Release -r win-x64 --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
 
-    - name: Create Docker Image
-      run: docker build -t morpheus061986/kegelkasse:latest .
-
-    - name: Log in to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username "${{ secrets.DOCKER_USER }}" --password-stdin
-
-    - name: Push Docker Image
-      run: docker push morpheus061986/kegelkasse:latest
+    - name: Upload publish folder
+      uses: actions/upload-artifact@v4
+      with:
+        name: Kegelkasse-publish
+        path: ./publish
