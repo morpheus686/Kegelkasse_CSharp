@@ -5,7 +5,6 @@ using Kegelkasse.Base.Services.Interfaces;
 using Kegelkasse.Foundation.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Kegelkasse.Base.ViewModel
 {
@@ -34,8 +33,8 @@ namespace Kegelkasse.Base.ViewModel
                 currentGame = value;
                 RaisePropertyChanged();
 
-                //NextGameCommand.NotifyCanExecuteChanged();
-                //PreviousGameCommand.NotifyCanExecuteChanged();
+                NextGameCommand.NotifyCanExecuteChanged();
+                PreviousGameCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -99,9 +98,9 @@ namespace Kegelkasse.Base.ViewModel
             }
         }
 
-        public ICommand PreviousGameCommand { get; }
-        public ICommand NextGameCommand { get; }
-        public ICommand ShowEditPlayerDialogCommand { get; }
+        public IAsyncRelayCommand PreviousGameCommand { get; }
+        public IAsyncRelayCommand NextGameCommand { get; }
+        public IAsyncRelayCommand ShowEditPlayerDialogCommand { get; }
 
         public GamePlayerTabViewModel(IDialogService dialogService, StrafenkatalogContext context)
         {

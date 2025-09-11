@@ -9,7 +9,9 @@
         xmlns:vm="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
         Title="RT-Kegelkasse" Height="600" Width="800"
         WindowStyle="None"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        
+        Style="{StaticResource MaterialDesignWindow}">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:EditPenaltyViewModel}">
             <view:EditPenaltyView />
@@ -30,40 +32,42 @@
             <view:AddGameDialogView />
         </DataTemplate>
     </Window.Resources>
-    <materialDesign:DialogHost Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
+    <Border BorderBrush="Black"
+            BorderThickness="1">
+        <materialDesign:DialogHost Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
                                        Identifier="DialogHost"
                                        x:Name="DialogHost">
-        <DockPanel>
-            <materialDesign:ColorZone Grid.Row="0" 
+            <DockPanel>
+                <materialDesign:ColorZone Grid.Row="0" 
                       Padding="0"
                       Mode="PrimaryMid"
                       DockPanel.Dock="Top"
                       ClipToBounds="False"
                       materialDesign:ElevationAssist.Elevation="Dp4" 
                       MouseDown="ColorZone_MouseDown">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="auto" />
-                    </Grid.ColumnDefinitions>
-                    
-                    <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="6"/>
-                    
-                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:Snackbar Grid.Row="0" Grid.ColumnSpan="6"/>
+
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}"
                                   Grid.Column="0"
                                   Margin="10"
                                   x:Name="MenuToggleButton"
                                   Visibility="Collapsed"/>
 
-                    <Button Grid.Column="4"  
+                        <Button Grid.Column="4"  
                             Width="25"
                             Margin="10,10,5,10"
                             Height="25"
@@ -72,15 +76,15 @@
                             HorizontalAlignment="Center"
                             Style="{StaticResource MaterialDesignFlatLightBgButton}"
                             Click="Minimize_Click">
-                        <Button.Content>
-                            <materialDesign:PackIcon Kind="WindowMinimize" 
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="WindowMinimize" 
                                  Height="15"
                                  Width="15"
                                  Foreground="White"/>
-                        </Button.Content>
-                    </Button>
+                            </Button.Content>
+                        </Button>
 
-                    <Button Grid.Column="5"  
+                        <Button Grid.Column="5"  
                             Width="25"
                             Margin="5,10,10,10"
                             Height="25"
@@ -89,84 +93,85 @@
                             HorizontalAlignment="Center"
                             Click="Close_Click"
                             Style="{StaticResource MaterialDesignFlatDarkBgButton}">
-                        <Button.Content>
-                            <materialDesign:PackIcon Kind="Close" 
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Close" 
                                                  Height="15"
                                                  Width="15"
                                                  Margin="0"/>
-                        </Button.Content>
-                    </Button>
+                            </Button.Content>
+                        </Button>
 
-                    <TextBlock Text="Mannschaftskasse RT 2 gemischt" 
+                        <TextBlock Text="Mannschaftskasse RT 2 gemischt" 
                                VerticalAlignment="Center"
                                HorizontalAlignment="Center"
                                Grid.Column="1"
                                FontSize="30"
                                Style="{StaticResource MaterialDesignCaptionTextBlock}"/>
-                    <materialDesign:PopupBox Grid.Column="2"
+                        <materialDesign:PopupBox Grid.Column="2"
                                              Margin="15"
                                              StaysOpen="False"
                                              PlacementMode="BottomAndAlignRightEdges"
                                              Visibility="Visible">
-                        <StackPanel Orientation="Vertical">
-                            <!--<Button Content="Datenbank speichern" />
+                            <StackPanel Orientation="Vertical">
+                                <!--<Button Content="Datenbank speichern" />
                             <Button Content="Datenbank laden" />
                             <Separator />
                             <Button Content="Neue Saison anlegen" />-->
-                            <Button Content="Spieltag anlegen"
+                                <Button Content="Spieltag anlegen"
                                     Command="{Binding AddGameCommand, Mode=OneTime}" />
-                        </StackPanel>
-                    </materialDesign:PopupBox>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
 
-                    <Button Grid.Column="3"
+                        <Button Grid.Column="3"
                             Margin="10" 
                             Width="25"
                             Height="25"
                             Padding="0"
                             Command="{Binding OpenSettingsCommand, Mode=OneTime}"
                             Visibility="Collapsed">
-                        <Button.Content>
-                            <materialDesign:PackIcon Kind="Settings" 
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="Settings" 
                                                      Height="15"
                                                      Width="15"/>
-                        </Button.Content>
-                    </Button>
-                </Grid>
-            </materialDesign:ColorZone>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </materialDesign:ColorZone>
 
-            <materialDesign:DrawerHost
+                <materialDesign:DrawerHost
                 IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
-                <materialDesign:DrawerHost.LeftDrawerContent>
-                    <DockPanel Width="200">
-                        <StackPanel Orientation="Vertical">
-                            <RadioButton Padding="0"
+                    <materialDesign:DrawerHost.LeftDrawerContent>
+                        <DockPanel Width="200">
+                            <StackPanel Orientation="Vertical">
+                                <RadioButton Padding="0"
                                 Style="{StaticResource MaterialDesignToolRadioButton}"
                                          Command="{Binding SetGamePlayerTabCommand, Mode=OneTime}">
-                                <RadioButton.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Games" Margin="15"/>
-                                        <TextBlock Text="Spiele" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </RadioButton.Content>
-                            </RadioButton>
+                                    <RadioButton.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Games" Margin="15"/>
+                                            <TextBlock Text="Spiele" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </RadioButton.Content>
+                                </RadioButton>
 
-                            <RadioButton Padding="0"
+                                <RadioButton Padding="0"
                                 Style="{StaticResource MaterialDesignToolRadioButton}"
                                          Command="{Binding SetStatisticsTabCommand, Mode=OneTime}">
-                                <RadioButton.Content>
-                                    <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Information" Margin="15"/>
-                                        <TextBlock Text="Statistik" VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                </RadioButton.Content>
-                            </RadioButton>
-                        </StackPanel>
-                    </DockPanel>
-                </materialDesign:DrawerHost.LeftDrawerContent>
-                
-                <view:GamePlayerTabView x:Name="MainArea" 
+                                    <RadioButton.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Information" Margin="15"/>
+                                            <TextBlock Text="Statistik" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                            </StackPanel>
+                        </DockPanel>
+                    </materialDesign:DrawerHost.LeftDrawerContent>
+
+                    <view:GamePlayerTabView x:Name="MainArea" 
                                 DataContext="{Binding CurrentTab, Mode=OneWay}"/>
-            </materialDesign:DrawerHost>
-        </DockPanel>
-    </materialDesign:DialogHost>
+                </materialDesign:DrawerHost>
+            </DockPanel>
+        </materialDesign:DialogHost>
+    </Border>
 </Window>

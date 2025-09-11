@@ -5,7 +5,11 @@
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
              xmlns:tviewModel="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
-             x:DataType="tviewModel:GamePlayerTabViewModel">
+             x:DataType="tviewModel:GamePlayerTabViewModel"
+             xmlns:converter="clr-namespace:Kegelkasse.MAUI.Converter">
+    <ContentView.Resources>
+        <converter:EuroFormatConverter x:Key="EuroFormatConverter" />
+    </ContentView.Resources>
     <Grid RowDefinitions="auto,*">
         <HorizontalStackLayout>
             <Label Text="Spieltag" 
@@ -36,5 +40,58 @@
                 </Image>
             </material:ButtonView>
         </HorizontalStackLayout>
+
+        <material:TabView Grid.Row="1">
+            <material:TabItem Title="Gesamt">
+                <Grid ColumnDefinitions="200, 150"
+                      RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, *">
+                    <Label Text="Volle" Grid.Row="0" FontSize="20" Margin="10"
+                           VerticalTextAlignment="Center"/>
+                    <Entry IsReadOnly="True"
+                                        Grid.Row="0" Grid.Column="1"
+                                        Text="{Binding TeamFull, Mode=OneWay}" 
+                           FontSize="20"
+                           Margin="10"/>
+                    <Label Text="Abräumen" Grid.Row="1" FontSize="20" Margin="10"
+                           VerticalTextAlignment="Center"/>
+                    <Entry IsReadOnly="True"
+                                        Grid.Row="1" Grid.Column="1"
+                                        Text="{Binding TeamClear, Mode=OneWay}" 
+                           FontSize="20"
+                           Margin="10"/>
+                    <Label Text="Ergebnis" Grid.Row="2" FontSize="20" Margin="10" 
+                           VerticalTextAlignment="Center"/>
+                    <Entry IsReadOnly="True"
+                                        Grid.Row="2" Grid.Column="1"
+                                        Text="{Binding TeamResult, Mode=OneWay}" 
+                           FontSize="20"
+                           Margin="10"/>
+                    <Label Text="Fehler" Grid.Row="3" FontSize="20" Margin="10"
+                           VerticalTextAlignment="Center"/>
+                    <Entry IsReadOnly="True"
+                                        Grid.Row="3" Grid.Column="1"
+                                        Text="{Binding TeamErrors, Mode=OneWay}" 
+                           FontSize="20"
+                           Margin="10"/>
+                    <Label Text="Gesambetrag" Grid.Row="4" FontSize="20" Margin="10"
+                           VerticalTextAlignment="Center"/>
+                    <Entry IsReadOnly="True"
+                                        Grid.Row="4" Grid.Column="1"
+                                        Text="{Binding ToPay, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}" 
+                           FontSize="20"
+                           Margin="10"/>
+                    <Label Text="Gezahlt" Grid.Row="5" FontSize="20" Margin="10"
+                           VerticalTextAlignment="Center"/>
+                    <Entry IsReadOnly="True"
+                                        Grid.Row="5" Grid.Column="1"
+                                        Text="{Binding Paid, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}" 
+                           FontSize="20"
+                           Margin="10"/>
+                </Grid>
+            </material:TabItem>
+            <material:TabItem Title="Einzel">
+                <Label Text="dummy"/>
+            </material:TabItem>
+        </material:TabView>
     </Grid>
 </ContentView>
