@@ -3,16 +3,13 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0-windowsservercore-ltsc2022 AS build
 WORKDIR /src
 
 # Copy solution and project files
-COPY Kegelkasse.sln ./
-COPY Kegelkasse/ Kegelkasse/
-COPY Kegelkasse.UnitTests/ Kegelkasse.UnitTests/
+COPY Kegelkasse/Kegelkasse.csproj Kegelkasse/
 
 # Restore dependencies
-RUN dotnet restore Kegelkasse.sln
+RUN dotnet restore Kegelkasse/Kegelkasse.csproj
 
 # Build and publish
-WORKDIR /src/Kegelkasse
-RUN dotnet publish -c Release -r win-x64 --self-contained=false -o /app
+RUN dotnet publish Kegelkasse/Kegelkasse.csproj -c Release -r win-x64 --self-contained=false -o /app
 
 # 2. Runtime-Image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-windowsservercore-ltsc2022
