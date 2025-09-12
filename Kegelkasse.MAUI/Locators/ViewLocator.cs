@@ -24,7 +24,7 @@ namespace Kegelkasse.MAUI.Locators
             var viewName = viewModelName
                 .Replace("ViewModel", "View");
 
-            var viewFullName = string.Join('.', "Zugsichtungen.MAUI.DialogView", viewName);
+            var viewFullName = string.Join('.', "Kegelkasse.MAUI.View.DialogView", viewName);
 
             var viewType = this.viewAssembly.GetType(viewFullName);
             if (viewType == null)

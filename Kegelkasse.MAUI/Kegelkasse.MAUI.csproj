@@ -60,7 +60,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Maui" Version="12.2.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
@@ -74,7 +74,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Kegelkasse.Abstractions\Kegelkasse.Base.csproj" />
+	  <ProjectReference Include="..\Kegelkasse.Abstractions\Kegelkasse.Common.csproj" />
 	  <ProjectReference Include="..\Kegelkasse.Foundation\Kegelkasse.Foundation.csproj" />
 	</ItemGroup>
 
@@ -89,6 +89,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="View\DialogView\EditPenaltyDialogView.xaml.cs">
+	    <DependentUpon>EditPenaltyDialogView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="View\DialogView\AddGameDialogView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\DialogView\EditPenaltyDialogView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="View\TabView\GamePlayerTabView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

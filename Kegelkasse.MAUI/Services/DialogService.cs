@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Extensions;
 using CommunityToolkit.Maui.Views;
-using Kegelkasse.Base.Services.Interfaces;
-using Kegelkasse.Base.ViewModel;
+using Kegelkasse.Common.Services.Interfaces;
+using Kegelkasse.Common.ViewModel;
 using Kegelkasse.Foundation.Enumerations;
 using Kegelkasse.MAUI.Locators;
 

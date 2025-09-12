@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Kegelkasse.MAUI.View.DialogView.EditPenaltyDialogView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+               xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+               xmlns:converter="clr-namespace:Kegelkasse.MAUI.Converter"
+               xmlns:viewModel="clr-namespace:Kegelkasse.Common.ViewModel;assembly=Kegelkasse.Common"
+               x:DataType="viewModel:EditPenaltyDialogViewModel">
+    <toolkit:Popup.Resources>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    </toolkit:Popup.Resources>
+    <Border Padding="20">
+        <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto"
+          ColumnDefinitions="auto, *">
+            <Label Grid.Row="0"
+                   Grid.ColumnSpan="2" FontSize="Title"
+                   Text="Spieler bearbeiten" 
+                   Margin="5"
+                   TextColor="Black"/>
+
+            <Label Text="Spieler" TextColor="Black" 
+                   Grid.Row="1" Grid.Column="0"
+                   Margin="5"
+                   VerticalOptions="Center"/>
+
+            <Entry Grid.Row="1" Grid.Column="1" 
+                   IsReadOnly="True"
+                   Margin="5"
+                   TextColor="Black"
+                   Text="{Binding Name, Mode=OneTime}"/>
+
+            <Label Text="Volle" TextColor="Black" 
+                   Grid.Row="2" Grid.Column="0"
+                   Margin="5"
+                   VerticalOptions="Center"/>
+
+            <Entry Grid.Row="2" Grid.Column="1"
+                                Text="{Binding Full, Mode=TwoWay}" 
+                   Keyboard="Numeric"
+                   MaxLength="3"
+                   ReturnType="Next"
+                   TextColor="Black"/>
+
+            <Label Text="Abräumen" TextColor="Black" 
+                  Grid.Row="3" Grid.Column="0"
+                  Margin="5"
+                  VerticalOptions="Center"/>
+
+            <Entry Grid.Row="3" Grid.Column="1"
+                               Text="{Binding Clear, Mode=TwoWay}" 
+                  Keyboard="Numeric"
+                  MaxLength="3"
+                  ReturnType="Next"
+                   TextColor="Black"/>
+
+            <Label Text="Gesamt" TextColor="Black" 
+                  Grid.Row="4" Grid.Column="0"
+                  Margin="5"
+                  VerticalOptions="Center"/>
+
+            <Entry Grid.Row="4" Grid.Column="1"
+                               Text="{Binding Clear, Mode=TwoWay}" 
+                   IsReadOnly="True"
+                  MaxLength="3"
+                  ReturnType="Next"
+                   TextColor="Black"/>
+
+            <Label Text="Fehler" TextColor="Black" 
+                  Grid.Row="5" Grid.Column="0"
+                  Margin="5"
+                  VerticalOptions="Center"/>
+
+            <Entry Grid.Row="5" Grid.Column="1"
+                               Text="{Binding Errors, Mode=TwoWay}" 
+                  Keyboard="Numeric"
+                  MaxLength="3"
+                  ReturnType="Done"
+                   TextColor="Black"/>
+
+
+            <HorizontalStackLayout Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="End">
+                <material:ButtonView WidthRequest="100"
+                                     Margin="5"
+                                     x:Name="SaveButtonView"
+                                     Tapped="SaveButtonView_Tapped"
+                                     IsEnabled="{Binding HasErrors, Converter={x:StaticResource InverseBooleanConverter}}">
+                    <Label Text="Speichern" 
+                           HorizontalTextAlignment="Center"/>
+                </material:ButtonView>
+                <material:ButtonView WidthRequest="100"
+                                     x:Name="AbortButtonView"
+                                    Margin="5"
+                                     Tapped="AbortButtonView_Tapped">
+                    <Label Text="Abbrechen"
+                           HorizontalTextAlignment="Center" />
+                </material:ButtonView>
+            </HorizontalStackLayout>
+        </Grid>
+    </Border>
+
+</toolkit:Popup>

@@ -1,4 +1,4 @@
-﻿using Kegelkasse.Base.ViewModel;
+﻿using Kegelkasse.Common.ViewModel;
 using UraniumUI.Pages;
 
 namespace Kegelkasse.MAUI

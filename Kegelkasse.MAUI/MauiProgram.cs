@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui;
-using Kegelkasse.Base.Models;
-using Kegelkasse.Base.Services.Interfaces;
-using Kegelkasse.Base.ViewModel;
+using Kegelkasse.Common.Models;
+using Kegelkasse.Common.Services.Interfaces;
+using Kegelkasse.Common.ViewModel;
 using Kegelkasse.MAUI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

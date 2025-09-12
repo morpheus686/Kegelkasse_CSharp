@@ -4,7 +4,7 @@
              x:Class="Kegelkasse.MAUI.View.TabView.GamePlayerTabView"
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
-             xmlns:tviewModel="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
+             xmlns:tviewModel="clr-namespace:Kegelkasse.Common.ViewModel;assembly=Kegelkasse.Common"
              x:DataType="tviewModel:GamePlayerTabViewModel"
              xmlns:converter="clr-namespace:Kegelkasse.MAUI.Converter">
     <ContentView.Resources>
@@ -12,85 +12,155 @@
     </ContentView.Resources>
     <Grid RowDefinitions="auto,*">
         <HorizontalStackLayout>
-            <Label Text="Spieltag" 
+            <!--<Label Text="Spieltag" 
                    FontSize="20"
                    Margin="20"
-                   VerticalTextAlignment="Center"/>
-            <material:ButtonView StyleClass="FilledButton"
+                   VerticalTextAlignment="Center"/>-->
+            <ImageButton StyleClass="FilledButton"
                                  Margin="20"
-                                 TappedCommand="{Binding PreviousGameCommand, Mode=OneTime}">
-                <Image>
-                    <Image.Source>
-                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.ArrowLeft}" Color="White" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+                                 Command="{Binding PreviousGameCommand, Mode=OneTime}">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.ArrowLeft}" Color="White" />
+                </ImageButton.Source>
+            </ImageButton>
             <Label Text="{Binding CurrentGame.Date, Mode=OneWay}" 
                    FontSize="20"
                    Margin="20"
                    VerticalTextAlignment="Center"
                    />
-            <material:ButtonView StyleClass="FilledButton"
+            <ImageButton StyleClass="TextButton"
                                  Margin="20"
-                                 TappedCommand="{Binding NextGameCommand, Mode=OneTime}">
-                <Image>
-                    <Image.Source>
-                        <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.ArrowRight}" Color="White" />
-                    </Image.Source>
-                </Image>
-            </material:ButtonView>
+                                 Command="{Binding NextGameCommand, Mode=OneTime}">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.ArrowRight}" Color="White" />
+                </ImageButton.Source>
+            </ImageButton>
+
+            <ImageButton StyleClass="TextButton"
+                         Margin="20">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.Plus}" Color="White" />
+                </ImageButton.Source>
+            </ImageButton>
         </HorizontalStackLayout>
 
-        <material:TabView Grid.Row="1">
+        <material:TabView Grid.Row="1"
+                          CachingStrategy="CacheOnLayout">
+            <!-- Tab 1: Gesamt -->
             <material:TabItem Title="Gesamt">
-                <Grid ColumnDefinitions="200, 150"
-                      RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto, *">
-                    <Label Text="Volle" Grid.Row="0" FontSize="20" Margin="10"
-                           VerticalTextAlignment="Center"/>
-                    <Entry IsReadOnly="True"
-                                        Grid.Row="0" Grid.Column="1"
-                                        Text="{Binding TeamFull, Mode=OneWay}" 
-                           FontSize="20"
-                           Margin="10"/>
-                    <Label Text="Abräumen" Grid.Row="1" FontSize="20" Margin="10"
-                           VerticalTextAlignment="Center"/>
-                    <Entry IsReadOnly="True"
-                                        Grid.Row="1" Grid.Column="1"
-                                        Text="{Binding TeamClear, Mode=OneWay}" 
-                           FontSize="20"
-                           Margin="10"/>
-                    <Label Text="Ergebnis" Grid.Row="2" FontSize="20" Margin="10" 
-                           VerticalTextAlignment="Center"/>
-                    <Entry IsReadOnly="True"
-                                        Grid.Row="2" Grid.Column="1"
-                                        Text="{Binding TeamResult, Mode=OneWay}" 
-                           FontSize="20"
-                           Margin="10"/>
-                    <Label Text="Fehler" Grid.Row="3" FontSize="20" Margin="10"
-                           VerticalTextAlignment="Center"/>
-                    <Entry IsReadOnly="True"
-                                        Grid.Row="3" Grid.Column="1"
-                                        Text="{Binding TeamErrors, Mode=OneWay}" 
-                           FontSize="20"
-                           Margin="10"/>
-                    <Label Text="Gesambetrag" Grid.Row="4" FontSize="20" Margin="10"
-                           VerticalTextAlignment="Center"/>
-                    <Entry IsReadOnly="True"
-                                        Grid.Row="4" Grid.Column="1"
-                                        Text="{Binding ToPay, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}" 
-                           FontSize="20"
-                           Margin="10"/>
-                    <Label Text="Gezahlt" Grid.Row="5" FontSize="20" Margin="10"
-                           VerticalTextAlignment="Center"/>
-                    <Entry IsReadOnly="True"
-                                        Grid.Row="5" Grid.Column="1"
-                                        Text="{Binding Paid, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}" 
-                           FontSize="20"
-                           Margin="10"/>
-                </Grid>
+                <material:TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <ScrollView HorizontalOptions="Fill" VerticalOptions="Fill">
+                            <Grid
+                ColumnDefinitions="200, 200, *"
+                RowDefinitions="*,*,*,*,*,*,*,*,*,*"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill"
+                        >
+
+                                <Label Text="Volle" Grid.Row="0" FontSize="20" Margin="10" VerticalOptions="Center"/>
+                                <Entry IsReadOnly="True" Grid.Row="0" Grid.Column="1"
+                       Text="{Binding TeamFull, Mode=OneWay}" FontSize="20" Margin="10" VerticalOptions="Fill"/>
+
+                                <Label Text="Abräumen" Grid.Row="1" FontSize="20" Margin="10" VerticalOptions="Center"/>
+                                <Entry IsReadOnly="True" Grid.Row="1" Grid.Column="1"
+                       Text="{Binding TeamClear, Mode=OneWay}" FontSize="20" Margin="10" VerticalOptions="Fill"/>
+
+                                <Label Text="Ergebnis" Grid.Row="2" FontSize="20" Margin="10" VerticalOptions="Center"/>
+                                <Entry IsReadOnly="True" Grid.Row="2" Grid.Column="1"
+                       Text="{Binding TeamResult, Mode=OneWay}" FontSize="20" Margin="10" VerticalOptions="Fill"/>
+
+                                <Label Text="Fehler" Grid.Row="3" FontSize="20" Margin="10" VerticalOptions="Center"/>
+                                <Entry IsReadOnly="True" Grid.Row="3" Grid.Column="1"
+                       Text="{Binding TeamErrors, Mode=OneWay}" FontSize="20" Margin="10" VerticalOptions="Fill"/>
+
+                                <Label Text="Gesambetrag" Grid.Row="4" FontSize="20" Margin="10" VerticalOptions="Center"/>
+                                <Entry IsReadOnly="True" Grid.Row="4" Grid.Column="1"
+                       Text="{Binding ToPay, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}"
+                       FontSize="20" Margin="10" VerticalOptions="Fill"/>
+
+                                <Label Text="Gezahlt" Grid.Row="5" FontSize="20" Margin="10" VerticalOptions="Center"/>
+                                <Entry IsReadOnly="True" Grid.Row="5" Grid.Column="1"
+                       Text="{Binding Paid, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}"
+                       FontSize="20" Margin="10" VerticalOptions="Fill"/>
+                            </Grid>
+                        </ScrollView>
+                    </DataTemplate>
+
+                </material:TabItem.ContentTemplate>
+
             </material:TabItem>
+
+            <!-- Tab 2: Einzel -->
             <material:TabItem Title="Einzel">
-                <Label Text="dummy"/>
+                <material:TabItem.ContentTemplate>
+                    <DataTemplate>
+                        <CollectionView ItemsSource="{Binding GridItems, Mode=OneWay}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="tviewModel:MainDataGridItemViewModel">
+                                    <Border Margin="5">
+                                        <SwipeView  Background="DarkRed">
+                                            <SwipeView.LeftItems>
+                                                <SwipeItem Text="Bearbeiten"
+                                            BackgroundColor="Gray" 
+                                            Command="{Binding EditCommand, Mode=OneTime}">
+                                                    <SwipeItem.IconImageSource>
+                                                        <FontImageSource FontFamily="MaterialSharp" Glyph="{x:Static uranium:MaterialSharp.Edit}" Color="White" />
+                                                    </SwipeItem.IconImageSource>
+                                                </SwipeItem>
+                                            </SwipeView.LeftItems>
+                                            <Grid RowDefinitions="auto, auto"
+                                          ColumnDefinitions="auto, auto, *, auto">
+                                                <Label Grid.Row="0"
+                                               Grid.Column="0"
+                                               Grid.ColumnSpan="2"
+                                               FontSize="20"
+                                               Text="{Binding Name, Mode=OneWay}" 
+                                               Margin="5,5,0,0"/>
+                                                <VerticalStackLayout Grid.Column="0"
+                                                             Grid.Row="1"
+                                                             Margin="0,0,5,5">
+                                                    <HorizontalStackLayout Margin="5">
+                                                        <Label Text="Volle:" Margin="0,0,5,0"/>
+                                                        <Label Text="{Binding Full, Mode=OneWay}" Margin="5,0,0,0"
+                                                       />
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout Margin="5">
+                                                        <Label Text="Abräumen:" Margin="0,0,5,0"/>
+                                                        <Label Text="{Binding Clear, Mode=OneWay}" 
+                                                       Margin="5,0,0,0"/>
+                                                    </HorizontalStackLayout>
+                                                    <HorizontalStackLayout Margin="5">
+                                                        <Label Text="Gesamt:" Margin="0,0,5,0"/>
+                                                        <Label Text="{Binding Result, Mode=OneWay}" Margin="5,0,0,0"
+                                                       />
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                                <VerticalStackLayout Grid.Column="1"
+                                                             Grid.Row="1"
+                                                             Margin="5,0,5,0" >
+                                                    <HorizontalStackLayout Margin="5">
+                                                        <Label Text="Fehler:" Margin="0,0,5,0"/>
+                                                        <Label Text="{Binding Errors, Mode=OneWay}" Margin="5,0,0,0"
+                                                       />
+                                                    </HorizontalStackLayout>
+
+                                                    <HorizontalStackLayout Margin="5">
+                                                        <Label Text="Zu zahlen:" Margin="0,0,5,0"/>
+                                                        <Label Text="{Binding PenaltySum, Mode=OneWay, Converter={StaticResource EuroFormatConverter}}" 
+                                                       Margin="5,0,0,0"/>
+
+                                                    </HorizontalStackLayout>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </SwipeView>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </DataTemplate>
+                </material:TabItem.ContentTemplate>
+
             </material:TabItem>
         </material:TabView>
     </Grid>
