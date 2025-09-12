@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Kegelkasse.Common.ViewModel
 {
-    public class EditPenaltyDialogViewModel : LoadableViewModelBase
+    public class EditPenaltyDialogViewModel : DialogViewModelBase
     {
 
         private GamePlayer gamePlayer;
