@@ -12,11 +12,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kegelkasse.UnitTests", "Keg
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kegelkasse", "Kegelkasse\Kegelkasse.csproj", "{FF91E42C-928C-5F89-6D4F-F53B3EA9625F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kegelkasse.Base", "Kegelkasse.Abstractions\Kegelkasse.Base.csproj", "{7BF1175F-5283-4EAB-922C-76DC22C5C07E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kegelkasse.Foundation", "Kegelkasse.Foundation\Kegelkasse.Foundation.csproj", "{878E5856-3D22-400C-9AB4-C85EDD94BE4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kegelkasse.MAUI", "Kegelkasse.MAUI\Kegelkasse.MAUI.csproj", "{243A81D4-577A-4940-9060-CEDA67412CAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kegelkasse.Common", "Kegelkasse.Common\Kegelkasse.Common.csproj", "{F898F882-9F49-D399-32E2-66D193822C51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,18 +32,19 @@ Global
 		{FF91E42C-928C-5F89-6D4F-F53B3EA9625F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF91E42C-928C-5F89-6D4F-F53B3EA9625F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF91E42C-928C-5F89-6D4F-F53B3EA9625F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BF1175F-5283-4EAB-922C-76DC22C5C07E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BF1175F-5283-4EAB-922C-76DC22C5C07E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BF1175F-5283-4EAB-922C-76DC22C5C07E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BF1175F-5283-4EAB-922C-76DC22C5C07E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{878E5856-3D22-400C-9AB4-C85EDD94BE4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{878E5856-3D22-400C-9AB4-C85EDD94BE4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{878E5856-3D22-400C-9AB4-C85EDD94BE4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{878E5856-3D22-400C-9AB4-C85EDD94BE4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{243A81D4-577A-4940-9060-CEDA67412CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{243A81D4-577A-4940-9060-CEDA67412CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{243A81D4-577A-4940-9060-CEDA67412CAF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{243A81D4-577A-4940-9060-CEDA67412CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{243A81D4-577A-4940-9060-CEDA67412CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F898F882-9F49-D399-32E2-66D193822C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F898F882-9F49-D399-32E2-66D193822C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F898F882-9F49-D399-32E2-66D193822C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F898F882-9F49-D399-32E2-66D193822C51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

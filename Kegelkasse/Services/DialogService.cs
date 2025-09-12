@@ -1,5 +1,5 @@
-﻿using Kegelkasse.Base.Services.Interfaces;
-using Kegelkasse.Base.ViewModel;
+﻿using Kegelkasse.Common.Services.Interfaces;
+using Kegelkasse.Common.ViewModel;
 using Kegelkasse.View;
 using MaterialDesignThemes.Wpf;
 

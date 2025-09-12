@@ -6,7 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kegelkasse.View"
                        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-                       xmlns:viewmodel="clr-namespace:Kegelkasse.Base.ViewModel;assembly=Kegelkasse.Base"
+                       xmlns:viewmodel="clr-namespace:Kegelkasse.Common.ViewModel;assembly=Kegelkasse.Common"
                        xmlns:enumerations="clr-namespace:Kegelkasse.Foundation.Enumerations;assembly=Kegelkasse.Foundation"
                        d:DataContext="{d:DesignInstance Type=viewmodel:EditPenaltyViewModel}"
                        mc:Ignorable="d" 

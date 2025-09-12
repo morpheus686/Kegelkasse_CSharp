@@ -74,7 +74,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Kegelkasse.Abstractions\Kegelkasse.Common.csproj" />
+	  <ProjectReference Include="..\Kegelkasse.Common\Kegelkasse.Common.csproj" />
 	  <ProjectReference Include="..\Kegelkasse.Foundation\Kegelkasse.Foundation.csproj" />
 	</ItemGroup>
 
