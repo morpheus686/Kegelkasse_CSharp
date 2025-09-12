@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Database\strafenkatalog.db">
+    <None Update="Database\Kegelkasse.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

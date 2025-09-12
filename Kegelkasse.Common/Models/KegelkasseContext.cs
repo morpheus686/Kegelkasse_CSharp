@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kegelkasse.Common.Models;
 
-public partial class StrafenkatalogContext : DbContext
+public partial class KegelkasseContext : DbContext
 {
-    public StrafenkatalogContext(DbContextOptions<StrafenkatalogContext> options)
+    public KegelkasseContext(DbContextOptions<KegelkasseContext> options)
         : base(options)
     {
     }
@@ -78,11 +78,11 @@ public partial class StrafenkatalogContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
 
-            entity.HasOne(d => d.Season).WithMany(p => p.Games).HasForeignKey(d => d.SeasonId);
+            entity.HasOne(d => d.Season).WithMany(p => p.Games)
+                .HasForeignKey(d => d.SeasonId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasOne(d => d.TeamNavigation).WithMany(p => p.Games)
-                .HasForeignKey(d => d.Team)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.TeamNavigation).WithMany(p => p.Games).HasForeignKey(d => d.Team);
         });
 
         modelBuilder.Entity<GamePlayer>(entity =>
@@ -90,9 +90,7 @@ public partial class StrafenkatalogContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Paid).HasColumnType("NUMERIC (2, 2)");
 
-            entity.HasOne(d => d.GameNavigation).WithMany(p => p.GamePlayers)
-                .HasForeignKey(d => d.Game)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.GameNavigation).WithMany(p => p.GamePlayers).HasForeignKey(d => d.Game);
 
             entity.HasOne(d => d.PlayerNavigation).WithMany(p => p.GamePlayers)
                 .HasForeignKey(d => d.Player)
@@ -139,9 +137,7 @@ public partial class StrafenkatalogContext : DbContext
         {
             entity.Property(e => e.Id).HasColumnName("ID");
 
-            entity.HasOne(d => d.GamePlayerNavigation).WithMany(p => p.PlayerPenalties)
-                .HasForeignKey(d => d.GamePlayer)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            entity.HasOne(d => d.GamePlayerNavigation).WithMany(p => p.PlayerPenalties).HasForeignKey(d => d.GamePlayer);
 
             entity.HasOne(d => d.PenaltyNavigation).WithMany(p => p.PlayerPenalties)
                 .HasForeignKey(d => d.Penalty)

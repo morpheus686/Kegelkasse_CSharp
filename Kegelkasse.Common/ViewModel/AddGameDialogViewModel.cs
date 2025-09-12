@@ -1,6 +1,5 @@
 ﻿using Kegelkasse.Common.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Kegelkasse.Common.ViewModel
 {
@@ -8,7 +7,7 @@ namespace Kegelkasse.Common.ViewModel
     {
         private const int DefaultTeamId = 1;
         private const int DefaultSeasonId = 2;
-        private readonly StrafenkatalogContext _context;
+        private readonly KegelkasseContext _context;
 
         private string _opponent;
 
@@ -36,7 +35,7 @@ namespace Kegelkasse.Common.ViewModel
         public Season SelectedSeason { get; set; } = null!;
 
 
-        public AddGameDialogViewModel(StrafenkatalogContext context)
+        public AddGameDialogViewModel(KegelkasseContext context)
         {
             _context = context;
             _opponent = string.Empty;

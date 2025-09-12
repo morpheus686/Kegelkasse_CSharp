@@ -60,6 +60,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidAsset Remove="Platforms\Android\Assets\Kegelkasse.db" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.9" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
@@ -86,6 +90,12 @@
 
 	<ItemGroup>
 	  <Folder Include="Database\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Platforms\Android\Assets\Kegelkasse.db">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>

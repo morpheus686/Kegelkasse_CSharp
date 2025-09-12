@@ -16,7 +16,7 @@ namespace Kegelkasse.Common.ViewModel
         private double? paid;
         private int? teamErrors;
         private int? teamFull;
-        private StrafenkatalogContext context;
+        private KegelkasseContext context;
         private Game? currentGame;
         private List<Game> games;
         private int? teamResult;
@@ -101,8 +101,9 @@ namespace Kegelkasse.Common.ViewModel
         public IAsyncRelayCommand PreviousGameCommand { get; }
         public IAsyncRelayCommand NextGameCommand { get; }
         public IAsyncRelayCommand ShowEditPlayerDialogCommand { get; }
+        public IAsyncRelayCommand AddGameCommand { get; }
 
-        public GamePlayerTabViewModel(IDialogService dialogService, StrafenkatalogContext context)
+        public GamePlayerTabViewModel(IDialogService dialogService, KegelkasseContext context)
         {
             GridItems = [];
             games = [];
@@ -110,7 +111,8 @@ namespace Kegelkasse.Common.ViewModel
             this.context = context;
             PreviousGameCommand = new AsyncRelayCommand(ExecutePreviousGameCommand, CanExecutePreviousGameCommand);
             NextGameCommand = new AsyncRelayCommand(ExecuteNextGameCommand, CanExecuteNextGameCommand);
-            ShowEditPlayerDialogCommand = new AsyncRelayCommand(ExecuteShowEditPlayerDialogCommand);            
+            ShowEditPlayerDialogCommand = new AsyncRelayCommand(ExecuteShowEditPlayerDialogCommand);
+            AddGameCommand = new AsyncRelayCommand(ExecuteAddGameCommandAsync);
         }
 
         private Task ExecuteShowEditPlayerDialogCommand()
@@ -227,6 +229,53 @@ namespace Kegelkasse.Common.ViewModel
                 ToPay = gamesum.PenaltySum;
 
                 //this.Paid = this.context.PaidPerGames.First(p => p.Game == this.CurrentGame.Id).Paid;
+            }
+        }
+
+        public async Task ExecuteAddGameCommandAsync()
+        {
+            var addgameViewModel = new AddGameDialogViewModel(context);
+            var result = await this._dialogService.ShowDialog(addgameViewModel);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("DialogService konnte kein gültiges Ergebnis für den Dialog liefern");
+            }
+
+            if ((DialogResult)result == DialogResult.Yes)
+            {
+                var newGame = new Game
+                {
+                    Team = addgameViewModel.SelectedTeam.Id,
+                    Date = DateOnly.FromDateTime(addgameViewModel.GameDate),
+                    Vs = addgameViewModel.Opponent,
+                    Gameday = addgameViewModel.GameNumber,
+                    Season = addgameViewModel.SelectedSeason
+                };
+
+                foreach (var player in addgameViewModel.SelectedPlayers)
+                {
+                    var newGamePlayer = new GamePlayer
+                    {
+                        Player = player.Id,
+                        Played = 1
+                    };
+
+                    foreach (var teamPenalty in context.TeamPenalties.Where(t => t.Team == addgameViewModel.SelectedTeam.Id))
+                    {
+                        newGamePlayer.PlayerPenalties.Add(new PlayerPenalty
+                        {
+                            Penalty = teamPenalty.Penalty,
+                            Value = 0
+                        });
+                    }
+
+                    newGame.GamePlayers.Add(newGamePlayer);
+                }
+
+                await context.AddAsync(newGame);
+                var affected = await context.SaveChangesAsync();
+                await ReloadGames();
             }
         }
     }

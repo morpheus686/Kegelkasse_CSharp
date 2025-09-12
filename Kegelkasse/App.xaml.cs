@@ -29,7 +29,7 @@ namespace Strafenkatalog
             services.AddSingleton<IConfiguration>(configuration);
             var connectionString = configuration.GetConnectionString("SQLiteConnection");
 
-            services.AddDbContext<StrafenkatalogContext>(options =>
+            services.AddDbContext<KegelkasseContext>(options =>
             {
                 options.UseSqlite(connectionString);
             });

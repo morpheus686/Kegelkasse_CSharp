@@ -4,9 +4,9 @@ namespace Kegelkasse.Common.ViewModel
 {
     public class EditTeamsDialogViewModel : LoadableViewModelBase
     {
-        private readonly StrafenkatalogContext context;
+        private readonly KegelkasseContext context;
 
-        public EditTeamsDialogViewModel(StrafenkatalogContext context)
+        public EditTeamsDialogViewModel(KegelkasseContext context)
         {
             this.context = context;
         }

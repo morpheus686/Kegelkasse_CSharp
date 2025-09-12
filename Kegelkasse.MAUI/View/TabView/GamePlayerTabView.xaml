@@ -37,7 +37,8 @@
             </ImageButton>
 
             <ImageButton StyleClass="TextButton"
-                         Margin="20">
+                         Margin="20"
+                         Command="{Binding AddGameCommand, Mode=OneTime}">
                 <ImageButton.Source>
                     <FontImageSource FontFamily="FASolid" Glyph="{x:Static uranium:Solid.Plus}" Color="White" />
                 </ImageButton.Source>

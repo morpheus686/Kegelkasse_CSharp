@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<customControls:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Kegelkasse.MAUI.View.DialogView.EditPenaltyDialogView"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
                xmlns:converter="clr-namespace:Kegelkasse.MAUI.Converter"
                xmlns:viewModel="clr-namespace:Kegelkasse.Common.ViewModel;assembly=Kegelkasse.Common"
-               x:DataType="viewModel:EditPenaltyDialogViewModel">
-    <toolkit:Popup.Resources>
+               x:DataType="viewModel:EditPenaltyDialogViewModel"
+               xmlns:customControls="clr-namespace:Kegelkasse.MAUI.CustomControls">
+    <customControls:Popup.Resources>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-    </toolkit:Popup.Resources>
+    </customControls:Popup.Resources>
     <Border Padding="20">
         <Grid RowDefinitions="auto, auto, auto, auto, auto, auto, auto, auto, auto"
           ColumnDefinitions="auto, *">
@@ -83,7 +84,7 @@
                 <material:ButtonView WidthRequest="100"
                                      Margin="5"
                                      x:Name="SaveButtonView"
-                                     Tapped="SaveButtonView_Tapped"
+                                     Tapped="CloseSave"
                                      IsEnabled="{Binding HasErrors, Converter={x:StaticResource InverseBooleanConverter}}">
                     <Label Text="Speichern" 
                            HorizontalTextAlignment="Center"/>
@@ -91,7 +92,7 @@
                 <material:ButtonView WidthRequest="100"
                                      x:Name="AbortButtonView"
                                     Margin="5"
-                                     Tapped="AbortButtonView_Tapped">
+                                     Tapped="CloseAbort">
                     <Label Text="Abbrechen"
                            HorizontalTextAlignment="Center" />
                 </material:ButtonView>
@@ -99,4 +100,4 @@
         </Grid>
     </Border>
 
-</toolkit:Popup>
+</customControls:Popup>

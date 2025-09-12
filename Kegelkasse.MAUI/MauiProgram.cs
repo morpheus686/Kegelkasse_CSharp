@@ -36,18 +36,10 @@ namespace Kegelkasse.MAUI
             builder.Logging.AddDebug();
 #endif
 
-            //var configuration = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", optional: false)
-            //    .Build();
-
-            //builder.Services.AddSingleton<IConfiguration>(configuration);
-            //var connectionString = configuration.GetConnectionString("SQLiteConnection");
-
             var dbPath = PrepareDatabase();
             var sqliteConnectionString = $"Data Source={dbPath}";
 
-            builder.Services.AddDbContext<StrafenkatalogContext>(options =>
+            builder.Services.AddDbContext<KegelkasseContext>(options =>
             {
                 options.UseSqlite(sqliteConnectionString);
             });
