@@ -22,7 +22,7 @@ jobs:
       run: dotnet restore Kegelkasse/Kegelkasse.csproj
 
     - name: Build and publish project
-      run: dotnet publish Kegelkasse/Kegelkasse.csproj -c Release -r win-x64 --self-contained=false -o /app
+      run: dotnet publish Kegelkasse/Kegelkasse.csproj -c Release -r win-x64 --self-contained=false -o /publish
 
 #    - name : Run Unit Tests   
 #      run: dotnet test Kegelkasse.sln -c Release -r win-x64 --verbosity minimal --no-build --no-restore /p:EnableWindowsTargeting=true
