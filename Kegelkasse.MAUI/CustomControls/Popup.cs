@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Views;
-using Kegelkasse.Foundation.Enumerations;
+﻿using Kegelkasse.Foundation.Enumerations;
 
 namespace Kegelkasse.MAUI.CustomControls
 {

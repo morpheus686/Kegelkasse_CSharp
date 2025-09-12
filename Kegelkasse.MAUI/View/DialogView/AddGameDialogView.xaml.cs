@@ -1,8 +1,10 @@
-using CommunityToolkit.Maui.Views;
+
+
+using Kegelkasse.MAUI.CustomControls;
 
 namespace Kegelkasse.MAUI.View.DialogView;
 
-public partial class AddGameDialogView : CommunityToolkit.Maui.Views.Popup
+public partial class AddGameDialogView : Popup
 {
 	public AddGameDialogView()
 	{
