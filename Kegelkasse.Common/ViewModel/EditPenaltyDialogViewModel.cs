@@ -20,11 +20,9 @@ namespace Kegelkasse.Common.ViewModel
             get { return gamePlayer.Full; }
             set
             {
-                gamePlayer.Full = value;
-                RaisePropertyChanged();
-
+                SetProperty(gamePlayer.Full, value, gamePlayer, (gp, f) => gp.Full = f);
                 gamePlayer.Result = value + gamePlayer.Clear;
-                RaisePropertyChanged(nameof(Result));
+                OnPropertyChanged(nameof(Result));
             }
         }
 
@@ -35,12 +33,10 @@ namespace Kegelkasse.Common.ViewModel
                 return gamePlayer.Clear;
             }
             set
-            {
-                gamePlayer.Clear = value;
-                RaisePropertyChanged();
-
+            {                
+                SetProperty(gamePlayer.Clear, value, gamePlayer, (gp, c) => gp.Clear = c);
                 gamePlayer.Result = value + gamePlayer.Full;
-                RaisePropertyChanged(nameof(Result));
+                OnPropertyChanged(nameof(Result));
             }
         }
 
@@ -49,8 +45,7 @@ namespace Kegelkasse.Common.ViewModel
             get { return gamePlayer.Errors; }
             set
             {
-                gamePlayer.Errors = value;
-                RaisePropertyChanged();
+                SetProperty(gamePlayer.Errors, value, gamePlayer, (gp, e) => gp.Errors = e);
 
                 if (value != null)
                 {

@@ -1,1 +1,1 @@
-Scaffold-DbContext "DataSource=.\Database\strafenkatalog.db" -provider Microsoft.EntityFrameworkCore.Sqlite -o .\Models -force
+dotnet ef dbcontext scaffold "DataSource=.\Database\Kegelkasse.db" Microsoft.EntityFrameworkCore.Sqlite -o .\Models --force --no-onconfiguring --project Kegelkasse.Common

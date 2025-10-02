@@ -14,8 +14,7 @@
 			get { return _message; }
 			set
 			{
-				_message = value; 
-				RaisePropertyChanged(nameof(Message));
+                SetProperty(ref _message, value);
 			}
 		}
     }

@@ -60,6 +60,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="View\ContentPage\**" />
+	  <Compile Remove="View\ContentPage\**" />
+	  <EmbeddedResource Remove="View\ContentPage\**" />
+	  <MauiCss Remove="View\ContentPage\**" />
+	  <MauiXaml Remove="View\ContentPage\**" />
+	  <None Remove="View\ContentPage\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <AndroidAsset Remove="Platforms\Android\Assets\Kegelkasse.db" />
 	</ItemGroup>
 

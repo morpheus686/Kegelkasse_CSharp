@@ -11,9 +11,8 @@ namespace Kegelkasse.Common.ViewModel
             get { return PlayerPenalty.Value; }
             set
             {
-                PlayerPenalty.Value = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(ToPay));
+                SetProperty(PlayerPenalty.Value, value, PlayerPenalty, (pp, v) => pp.Value = v);
+                OnPropertyChanged(nameof(ToPay));
             }
         }
 

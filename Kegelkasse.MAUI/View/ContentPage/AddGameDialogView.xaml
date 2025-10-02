@@ -1,0 +1,60 @@
+<uranium:UraniumContentPage    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Kegelkasse.MAUI.View.ContentPage.AddGameDialogView"
+    Title="Neues Spiel anlegen"
+                                             xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
+                            xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material">
+
+    <Grid RowDefinitions="*,Auto">
+        <!-- Wizard Content -->
+        <Grid>
+            <!-- Step 1: Spieldaten -->
+            <ScrollView IsVisible="{Binding CurrentStep, Converter={StaticResource StepEqualsConverter}, ConverterParameter=GameData}">
+                <VerticalStackLayout Padding="20" Spacing="15">
+                    <Entry Placeholder="Gegner"
+                           Text="{Binding Opponent}" />
+                    <DatePicker Date="{Binding GameDate}" />
+                    <Entry Placeholder="Spielnummer"
+                           Keyboard="Numeric"
+                           Text="{Binding GameNumber}" />
+                    <Picker Title="Saison"
+                            ItemsSource="{Binding Seasons}"
+                            SelectedItem="{Binding SelectedSeason}" />
+                    <Picker Title="Team"
+                            ItemsSource="{Binding Teams}"
+                            SelectedItem="{Binding SelectedTeam}" />
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- Step 2: Spieler -->
+            <ScrollView IsVisible="{Binding CurrentStep, Converter={StaticResource StepEqualsConverter}, ConverterParameter=Players}">
+                <CollectionView ItemsSource="{Binding Players}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10" ColumnDefinitions="Auto,*">
+                                <CheckBox IsChecked="{Binding IsPlaying}" />
+                                <Label Text="{Binding Player.Name}" Grid.Column="1" VerticalOptions="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Grid>
+
+        <!-- Navigation Buttons -->
+        <Grid Grid.Row="1" Padding="10" ColumnDefinitions="Auto,*,Auto">
+            <Button Text="Zurück"
+                    Command="{Binding BackCommand}"
+                    IsVisible="{Binding CurrentStep, Converter={StaticResource StepEqualsConverter}, ConverterParameter=Players}" />
+            <Button Text="Weiter"
+                    Grid.Column="2"
+                    Command="{Binding NextCommand}"
+                    IsVisible="{Binding CurrentStep, Converter={StaticResource StepEqualsConverter}, ConverterParameter=GameData}"
+                    IsEnabled="{Binding CanGoNext}" />
+            <Button Text="Speichern"
+                    Grid.Column="2"
+                    IsVisible="{Binding CurrentStep, Converter={StaticResource StepEqualsConverter}, ConverterParameter=Players}"
+                    Command="{Binding SaveCommand}" />
+        </Grid>
+    </Grid>
+</uranium:UraniumContentPage>

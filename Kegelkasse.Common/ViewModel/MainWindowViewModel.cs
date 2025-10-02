@@ -33,7 +33,7 @@ namespace Kegelkasse.Common.ViewModel
         private void ExecuteSetStatisticsTabCommand()
         {
             CurrentTab = null;
-            RaisePropertyChanged(nameof(CurrentTab));
+            OnPropertyChanged(nameof(CurrentTab));
         }
 
         private void ExecuteSetGamePlayerCommand()
@@ -44,7 +44,7 @@ namespace Kegelkasse.Common.ViewModel
         private void SetGamePlayerTabViewModel()
         {
             CurrentTab = GamePlayerTabViewModel;
-            RaisePropertyChanged(nameof(CurrentTab));
+            OnPropertyChanged(nameof(CurrentTab));
         }
 
         private async Task ExecuteOpenSettingsCommand()

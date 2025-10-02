@@ -29,17 +29,29 @@ namespace Kegelkasse.MAUI.Services
                 await viewModel.Initialize();
                 var view = this.viewLocator.ResolveView(viewModel);
 
-                if (view is Popup popup)
+                switch(view)
                 {
-                    popup.BindingContext = viewModel;
-                    var result = await page.ShowPopupAsync(popup);
+                    case null:
+                        throw new TypeLoadException($"Die View für das ViewModel '{viewModel.GetType().FullName}' konnte nicht gefunden werden.");
+                    case Popup popup:
+                        popup.BindingContext = viewModel;
+                        var result = await page.ShowPopupAsync(popup);
+                        return result ?? DialogResult.Abort;
+                    case ContentPage contentPage:
+                        contentPage.BindingContext = viewModel;
+                        var tcs = new TaskCompletionSource<object?>();
 
-                    if (result == null)
-                    {
-                        return DialogResult.Abort;
-                    }
+                        if (viewModel is DialogViewModelBase dialogVm)
+                        {
+                            dialogVm.RequestClose += async (s, result) =>
+                            {
+                                await page.Navigation.PopAsync();
+                                tcs.TrySetResult(result);
+                            };
+                        }
 
-                    return result;
+                        await page.Navigation.PushAsync(contentPage);
+                        return await tcs.Task;
                 }
 
                 return DialogResult.Abort;

@@ -7,6 +7,8 @@ namespace Kegelkasse.Common.ViewModel
     {
         private readonly Dictionary<string, List<string>> _errors;
 
+        public event EventHandler<object?>? RequestClose;
+
         protected DialogViewModelBase()
         {
             _errors = [];
@@ -15,6 +17,11 @@ namespace Kegelkasse.Common.ViewModel
         public virtual bool HasErrors => _errors.Any();
 
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+
+        protected void Close(object? result = null)
+        {
+            RequestClose?.Invoke(this, result);
+        }
 
         public IEnumerable GetErrors(string? propertyName)
         {

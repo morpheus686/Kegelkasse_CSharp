@@ -30,8 +30,7 @@ namespace Kegelkasse.Common.ViewModel
             get => currentGame;
             set
             {
-                currentGame = value;
-                RaisePropertyChanged();
+                SetProperty(ref currentGame, value);
 
                 NextGameCommand.NotifyCanExecuteChanged();
                 PreviousGameCommand.NotifyCanExecuteChanged();
@@ -44,7 +43,7 @@ namespace Kegelkasse.Common.ViewModel
             private set 
             { 
                 teamResult = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -54,7 +53,7 @@ namespace Kegelkasse.Common.ViewModel
             private set 
             { 
                 teamClear = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -64,7 +63,7 @@ namespace Kegelkasse.Common.ViewModel
             set 
             { 
                 teamFull = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -74,7 +73,7 @@ namespace Kegelkasse.Common.ViewModel
             set 
             { 
                 teamErrors = value; 
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -84,7 +83,7 @@ namespace Kegelkasse.Common.ViewModel
             private set 
             { 
                 toPay = value; 
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -94,7 +93,7 @@ namespace Kegelkasse.Common.ViewModel
             private set
             {
                 paid = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

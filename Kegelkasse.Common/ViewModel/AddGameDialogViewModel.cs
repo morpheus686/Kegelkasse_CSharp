@@ -1,5 +1,7 @@
-﻿using Kegelkasse.Common.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using Kegelkasse.Common.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Windows.Input;
 
 namespace Kegelkasse.Common.ViewModel
 {
@@ -16,9 +18,9 @@ namespace Kegelkasse.Common.ViewModel
             get { return _opponent; }
             set
             {
-                _opponent = value;
+                SetProperty(ref _opponent, value);
                 ValidateOpponent();
-                RaisePropertyChanged(nameof(HasErrors));
+                OnPropertyChanged(nameof(HasErrors));
             }
         }
 
@@ -34,6 +36,11 @@ namespace Kegelkasse.Common.ViewModel
         public List<Season> Seasons { get; }
         public Season SelectedSeason { get; set; } = null!;
 
+        public AddGameStep CurrentStep { get; private set; } = AddGameStep.GameData;
+
+        public ICommand NextCommand { get; }
+        public ICommand BackCommand { get; }
+
 
         public AddGameDialogViewModel(KegelkasseContext context)
         {
@@ -44,7 +51,28 @@ namespace Kegelkasse.Common.ViewModel
             Seasons = [];
             GameDate = DateTime.Now;
             GameNumber = 1;
+
+            NextCommand = new RelayCommand(GoNext, () => CanGoNext);
+            BackCommand = new RelayCommand(GoBack, () => CurrentStep == AddGameStep.Players);
         }
+
+        private void GoNext()
+        {
+            if (CurrentStep == AddGameStep.GameData)
+            {
+                CurrentStep = AddGameStep.Players;
+            }
+        }
+
+        private void GoBack()
+        {
+            if (CurrentStep == AddGameStep.Players)
+            {
+                CurrentStep = AddGameStep.GameData;
+            }
+        }
+
+        public bool CanGoNext => CurrentStep == AddGameStep.GameData && !HasErrors;
 
         private void ValidateOpponent()
         {

@@ -4,14 +4,13 @@
              xmlns:local="clr-namespace:Kegelkasse.MAUI"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:converter="clr-namespace:Kegelkasse.MAUI.Converter"
              x:Class="Kegelkasse.MAUI.App">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-
-
                 <ResourceDictionary x:Name="appColors" Source="Resources/Styles/Colors.xaml" />
 
                 <material:StyleResource ColorsOverride="{x:Reference appColors}">
@@ -19,7 +18,7 @@
                         <ResourceDictionary x:Name="appStyles" Source="Resources/Styles/Styles.xaml" />
                     </material:StyleResource.Overrides>
                 </material:StyleResource>
-            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>            
         </ResourceDictionary>
     </Application.Resources>
 </Application>
